@@ -69,7 +69,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.game.multyplayerjavafx/com.game.multyplayerjavafx.HelloApplication
+                            <mainClass>com.game.multyplayerjavafx/com.game.multy_player_javafx.HelloApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

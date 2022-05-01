@@ -5,6 +5,6 @@ module com.game.multyplayerjavafx {
     requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
 
-    opens com.game.multyplayerjavafx to javafx.fxml;
-    exports com.game.multyplayerjavafx;
+    opens com.game.multy_player_javafx to javafx.fxml;
+    exports com.game.multy_player_javafx;
 }
