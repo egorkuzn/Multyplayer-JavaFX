@@ -8,6 +8,8 @@ import com.game.multy_player_javafx.mvc.view.Layout;
 public class Game {
     String pathToServer = "";
     int userLimit = 0;
+    int xLimit = 500;
+    int yLimit = 500;
     Server server;
     Command command;
     City model;
@@ -25,6 +27,8 @@ public class Game {
 // как-то нужно сделать задержки, чтобы они были адекватными
 
     public void clientRun(){
+        Boolean RUN = true;
+
         while(RUN) {
             command.getCommands(fileName);
             Server.sendToDo(command.sendCommand());
@@ -33,6 +37,9 @@ public class Game {
     }
 
     public void serverRun(){
+        Boolean RUN = true;
+        model = new City(xLimit, yLimit);
+
         while (RUN){
             model.getToDo(Server.getToDo());
             Server.setView(model.getCityMask());
