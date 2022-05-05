@@ -9,35 +9,36 @@ import java.util.Map;
 
 public class City {
     final int xLimit, yLimit;
-    HashMap<Actor, Model> models = new HashMap<>();
-    //Mask cityMask;
-    letter_to_server;
-    // что-то, с чем элементы могут взаимодействовать
-    npc_models;
+    HashMap<Actor, ActiveModel> models = new HashMap<>();
+    //Может быть не строка, а хэш, но это на будущее
+    HashMap<String, ArrayList<Integer>> letter_to_server = new HashMap<>();
+    HashMap<Integer, PassiveStatus> passive_models = new HashMap<>();
 
     public City(int xLimit, int yLimit){
         this.xLimit = xLimit;
         this.yLimit = yLimit;
-        // сама концепция маски - фигня. cityMask = new Mask(xLimit, yLimit);
     }
 
-    public void getToDo(ArrayList<ToDo> toDoList){
+    public void setToDo(ArrayList<ToDo> toDoList){
         for (ToDo toDo: toDoList)
-            run(toDo);
-
-        for(Map.Entry<Actor, Model> elem : models.entrySet()){
-            // В письмо серверу добавляем по статусу: координата, действие
-        }
+            setUniqueToDo(toDo);
     }
 
-    private void run(ToDo toDo){
+    private void setUniqueToDo(ToDo toDo){
         if(!models.containsKey(toDo.who()))
-            models.put(toDo.who(), new Model(toDo.who()));
+            models.put(toDo.who(), new ActiveModel(toDo.who()));
 
-        models.get(toDo.who()).run(toDo.what(), npc_models);
+        models.get(toDo.who()).setToDo(toDo.what(), passive_models);
     }
 
-    public Letter getLetter() {
+    public void run(){
+        letter_to_server.clear();
+        //как-то надо параллелить
+        for(Map.Entry<Actor, ActiveModel> model : models.entrySet())
+            model.getValue().refresh(letter_to_server);
+    }
+
+    public HashMap<String, ArrayList<Integer>> getLetter() {
         return letter_to_server;
     }
 }

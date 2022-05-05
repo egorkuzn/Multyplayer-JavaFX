@@ -3,7 +3,7 @@ package com.game.multy_player_javafx;
 import com.game.multy_player_javafx.mvc.controller.Command;
 import com.game.multy_player_javafx.mvc.model.City;
 import com.game.multy_player_javafx.mvc.model.server.Server;
-import com.game.multy_player_javafx.mvc.view.Layout;
+import com.game.multy_player_javafx.mvc.view.LayoutManager;
 
 public class Game {
     String pathToServer = "";
@@ -13,7 +13,7 @@ public class Game {
     Server server;
     Command command;
     City model;
-    Layout view;
+    LayoutManager view;
     String fileName;
 
     public Game(int userLimit, String pathToServer){
@@ -32,7 +32,7 @@ public class Game {
         while(RUN) {
             command.getCommands(fileName);
             Server.sendToDo(command.sendCommand());
-            view.display(Server.getView());
+            view.display(Server.getView(), fileName);
         }
     }
 
@@ -41,8 +41,8 @@ public class Game {
         model = new City(xLimit, yLimit);
 
         while (RUN){
-            model.getToDo(Server.getToDo());
-            Server.setView(model.getCityMask());
+            model.setToDo(Server.getToDo());
+            Server.sendView(model.getLetter());
         }
     }
 }

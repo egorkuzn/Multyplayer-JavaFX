@@ -4,10 +4,11 @@ import com.game.multy_player_javafx.mvc.controller.ToDo;
 import com.game.multy_player_javafx.mvc.model.Mask;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Server {
     ArrayList<ToDo> toDoList = new ArrayList<>();
-    Mask layoutMask = new Mask();
+    HashMap<String, Integer> layoutMask = new HashMap<>();
     int userLimit = 0;
     String pathToServer = "";
 
@@ -24,10 +25,10 @@ public class Server {
         this.toDoList = toDoList;
     }
 
-    public Mask getView(){
+    public HashMap<String, Integer> getView(){
         return this.layoutMask;
     }
-    public void setView(Mask layoutMask){
+    public void sendView(HashMap<String, Integer> layoutMask){
         this.layoutMask = layoutMask;
     }
 }
