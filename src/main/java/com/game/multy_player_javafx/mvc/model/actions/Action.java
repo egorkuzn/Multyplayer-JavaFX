@@ -9,9 +9,11 @@ import java.util.HashMap;
 public interface Action {
     void make(String name,
               Integer coordinate,
-              ActiveStatus status,
+              ActiveStatus[] status,
               HashMap<Integer, PassiveStatus> passive_models,
               HashMap<String, ArrayList<Integer>> letter_to_server);
+
+    String getViewParam();
 
     Action clone();
 }

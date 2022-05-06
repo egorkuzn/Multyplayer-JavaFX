@@ -11,5 +11,7 @@ public enum ActiveStatus {
     CAR,
     DOG;
 
+    public int energy = 0;
+    public int speed = 0;
     public HashMap<String, Action> actionList;
 }

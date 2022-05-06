@@ -1,4 +1,29 @@
 package com.game.multy_player_javafx.mvc.model.actions.car.headlights;
 
-public class LightsOff {
+import com.game.multy_player_javafx.mvc.model.ActiveStatus;
+import com.game.multy_player_javafx.mvc.model.PassiveStatus;
+import com.game.multy_player_javafx.mvc.model.actions.Action;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class LightsOff  implements Action {
+    boolean first_time;
+    public LightsOff(){
+        first_time = true;
+    }
+    @Override
+    public void make(String name, Integer coordinate, ActiveStatus[] status, HashMap<Integer, PassiveStatus> passive_models, HashMap<String, ArrayList<Integer>> letter_to_server) {
+
+    }
+
+    @Override
+    public String getViewParam() {
+        return "_lightsOff";
+    }
+
+    @Override
+    public Action clone() {
+        return new LightsOff();
+    }
 }
