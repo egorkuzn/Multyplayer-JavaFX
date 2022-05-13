@@ -1,16 +1,15 @@
-package com.game.multy_player_javafx.mvc.model;
+package com.game.multy_player_javafx.mvc.model.active;
 
 import com.game.multy_player_javafx.mvc.controller.Actor;
 import com.game.multy_player_javafx.mvc.controller.Task;
-import com.game.multy_player_javafx.mvc.model.actions.Action;
+import com.game.multy_player_javafx.mvc.model.passive.PassiveStatus;
+import com.game.multy_player_javafx.mvc.model.active.actions.Action;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Properties;
 
 public class ActiveModel {
@@ -80,9 +79,9 @@ public class ActiveModel {
             action = status[0].actionList.get(task.getTaskName()).clone();
     }
 
-    public void refresh(HashMap<String, ArrayList<Integer>> letter_to_server){
+    public void refresh(HashMap<String, ArrayList<Integer>> letter_to_server, Boolean RUN){
         if(action != null)
-            action.make(modelName, coordinate, status, passive_models, letter_to_server);
+            RUN = action.make(modelName, coordinate, status, passive_models, letter_to_server);
 
         String word = status[0].name() + action.getViewParam();
         ArrayList<Integer> coordinate_list = new ArrayList<Integer>();

@@ -1,4 +1,4 @@
-package com.game.multy_player_javafx.mvc.model;
+package com.game.multy_player_javafx.mvc.model.passive;
 
 public enum PassiveStatus {
     CAR,

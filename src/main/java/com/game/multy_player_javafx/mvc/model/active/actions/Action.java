@@ -1,13 +1,13 @@
-package com.game.multy_player_javafx.mvc.model.actions;
+package com.game.multy_player_javafx.mvc.model.active.actions;
 
-import com.game.multy_player_javafx.mvc.model.ActiveStatus;
-import com.game.multy_player_javafx.mvc.model.PassiveStatus;
+import com.game.multy_player_javafx.mvc.model.active.ActiveStatus;
+import com.game.multy_player_javafx.mvc.model.passive.PassiveStatus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public interface Action {
-    void make(String name,
+    boolean make(String name,
               Integer coordinate,
               ActiveStatus[] status,
               HashMap<Integer, PassiveStatus> passive_models,

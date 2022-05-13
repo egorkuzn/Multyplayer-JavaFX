@@ -1,9 +1,9 @@
-package com.game.multy_player_javafx.mvc.model.actions.human.move;
+package com.game.multy_player_javafx.mvc.model.active.actions.human.move;
 
 
-import com.game.multy_player_javafx.mvc.model.ActiveStatus;
-import com.game.multy_player_javafx.mvc.model.PassiveStatus;
-import com.game.multy_player_javafx.mvc.model.actions.Action;
+import com.game.multy_player_javafx.mvc.model.active.ActiveStatus;
+import com.game.multy_player_javafx.mvc.model.passive.PassiveStatus;
+import com.game.multy_player_javafx.mvc.model.active.actions.Action;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +17,7 @@ public class MoveUp implements Action {
         first_time = true;
     }
     @Override
-    public void make(String name, Integer coordinate, ActiveStatus[] status, HashMap<Integer, PassiveStatus> passive_models, HashMap<String, ArrayList<Integer>> letter_to_server) {
+    public boolean make(String name, Integer coordinate, ActiveStatus[] status, HashMap<Integer, PassiveStatus> passive_models, HashMap<String, ArrayList<Integer>> letter_to_server) {
         if(first_time) {
             energy = status[0].energy;
             first_time = false;
@@ -27,6 +27,8 @@ public class MoveUp implements Action {
             energy--;
             coordinate -= status[0].speed;
         }
+
+        return true;
     }
 
     @Override

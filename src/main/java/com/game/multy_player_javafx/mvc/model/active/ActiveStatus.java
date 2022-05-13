@@ -1,6 +1,6 @@
-package com.game.multy_player_javafx.mvc.model;
+package com.game.multy_player_javafx.mvc.model.active;
 
-import com.game.multy_player_javafx.mvc.model.actions.Action;
+import com.game.multy_player_javafx.mvc.model.active.actions.Action;
 
 import java.util.HashMap;
 

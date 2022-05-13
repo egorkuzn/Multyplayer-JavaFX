@@ -1,25 +1,37 @@
 package com.game.multy_player_javafx.mvc.model;
 
 import com.game.multy_player_javafx.mvc.controller.Actor;
+import com.game.multy_player_javafx.mvc.controller.ServerController;
 import com.game.multy_player_javafx.mvc.controller.ToDo;
+import com.game.multy_player_javafx.mvc.model.active.ActiveModel;
+import com.game.multy_player_javafx.mvc.model.networking.Clients;
+import com.game.multy_player_javafx.mvc.model.passive.PassiveStatus;
+import com.game.multy_player_javafx.mvc.model.passive.Point;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class City {
-    final int xLimit, yLimit;
+
+    final Point spaceSize;
     HashMap<Actor, ActiveModel> models = new HashMap<>();
     //Может быть не строка, а хэш, но это на будущее
-    HashMap<String, ArrayList<Integer>> letter_to_server = new HashMap<>();
+    HashMap<String, ArrayList<Integer>> letter_from_server = new HashMap<>();
     HashMap<Integer, PassiveStatus> passive_models = new HashMap<>();
+    ServerController controller;
+    Clients clients;
 
-    public City(int xLimit, int yLimit){
-        this.xLimit = xLimit;
-        this.yLimit = yLimit;
+    public City(ServerController controller){
+        this.controller = controller;
+        spaceSize = controller.initSizeLimit();
+        clients = controller.initClients();
     }
 
-    public void setToDo(ArrayList<ToDo> toDoList){
+    private void setToDo(){
+        ArrayList<ToDo> toDoList = controller.sendCommands();
+        Clients.setClientsList(controller.getSockets());
+
         for (ToDo toDo: toDoList)
             setUniqueToDo(toDo);
     }
@@ -31,14 +43,21 @@ public class City {
         models.get(toDo.who()).setToDo(toDo.what(), passive_models);
     }
 
-    public void run(){
-        letter_to_server.clear();
-        //как-то надо параллелить
+    private void refresh(Boolean RUN){
+        letter_from_server.clear();
         for(Map.Entry<Actor, ActiveModel> model : models.entrySet())
-            model.getValue().refresh(letter_to_server);
+            model.getValue().refresh(letter_from_server, RUN);
     }
 
-    public HashMap<String, ArrayList<Integer>> getLetter() {
-        return letter_to_server;
+    private void sendLetter(Boolean RUN) {
+           clients.send(letter_from_server, RUN);
+    }
+
+    public void run(){
+        Boolean RUN  = true;
+        while (RUN) {
+            refresh(RUN);
+            sendLetter(RUN);
+        }
     }
 }
