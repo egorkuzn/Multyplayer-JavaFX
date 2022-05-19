@@ -4,6 +4,7 @@ package com.game.multy_player_javafx.mvc.model.active.actions.human.move;
 import com.game.multy_player_javafx.mvc.model.active.ActiveStatus;
 import com.game.multy_player_javafx.mvc.model.passive.PassiveStatus;
 import com.game.multy_player_javafx.mvc.model.active.actions.Action;
+import com.game.multy_player_javafx.mvc.model.passive.Point;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +18,7 @@ public class MoveDown implements Action {
         first_time = true;
     }
     @Override
-    public boolean make(String name, Integer coordinate, ActiveStatus[] status, HashMap<Integer, PassiveStatus> passive_models, HashMap<String, ArrayList<Integer>> letter_to_server) {
+    public boolean make(String name, Point coordinate, ActiveStatus[] status, HashMap<Point, PassiveStatus> passive_models, HashMap<String, ArrayList<Point>> letter_to_server) {
         if(first_time) {
             energy = status[0].energy;
             first_time = false;
@@ -25,7 +26,7 @@ public class MoveDown implements Action {
 
         if(energy > 0) {
             energy--;
-            coordinate += status[0].speed;
+            coordinate.Y += status[0].speed;
         }
 
         return true;

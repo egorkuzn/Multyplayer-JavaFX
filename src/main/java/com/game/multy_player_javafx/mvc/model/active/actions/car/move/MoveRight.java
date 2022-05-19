@@ -3,6 +3,7 @@ package com.game.multy_player_javafx.mvc.model.active.actions.car.move;
 import com.game.multy_player_javafx.mvc.model.active.ActiveStatus;
 import com.game.multy_player_javafx.mvc.model.passive.PassiveStatus;
 import com.game.multy_player_javafx.mvc.model.active.actions.Action;
+import com.game.multy_player_javafx.mvc.model.passive.Point;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +17,7 @@ public class MoveRight implements Action {
         first_time = true;
     }
     @Override
-    public boolean make(String name, Integer coordinate, ActiveStatus[] status, HashMap<Integer, PassiveStatus> passive_models, HashMap<String, ArrayList<Integer>> letter_to_server) {
+    public boolean make(String name, Point coordinate, ActiveStatus[] status, HashMap<Point, PassiveStatus> passive_models, HashMap<String, ArrayList<Point>> letter_to_server) {
         if(first_time){
             energy = status[0].energy;
             first_time = false;
@@ -24,7 +25,7 @@ public class MoveRight implements Action {
 
         if(energy > 0){
             energy--;
-            coordinate += status[0].speed << 17;
+            coordinate.X += status[0].speed;
         }
 
         return true;

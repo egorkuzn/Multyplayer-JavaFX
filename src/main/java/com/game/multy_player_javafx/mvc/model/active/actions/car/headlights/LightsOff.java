@@ -3,6 +3,7 @@ package com.game.multy_player_javafx.mvc.model.active.actions.car.headlights;
 import com.game.multy_player_javafx.mvc.model.active.ActiveStatus;
 import com.game.multy_player_javafx.mvc.model.passive.PassiveStatus;
 import com.game.multy_player_javafx.mvc.model.active.actions.Action;
+import com.game.multy_player_javafx.mvc.model.passive.Point;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +14,7 @@ public class LightsOff  implements Action {
         first_time = true;
     }
     @Override
-    public boolean make(String name, Integer coordinate, ActiveStatus[] status, HashMap<Integer, PassiveStatus> passive_models, HashMap<String, ArrayList<Integer>> letter_to_server) {
+    public boolean make(String name, Point coordinate, ActiveStatus[] status, HashMap<Point, PassiveStatus> passive_models, HashMap<String, ArrayList<Point>> letter_to_server) {
         return true;
     }
 

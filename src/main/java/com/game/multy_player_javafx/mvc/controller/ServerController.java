@@ -1,6 +1,5 @@
 package com.game.multy_player_javafx.mvc.controller;
 
-import com.game.multy_player_javafx.mvc.exceptions.BadCommand;
 import com.game.multy_player_javafx.mvc.model.networking.Clients;
 import com.game.multy_player_javafx.mvc.model.passive.Point;
 
@@ -10,36 +9,21 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Properties;
-import java.util.Timer;
 
-public class ServerController {
+public class ServerController extends Thread{
         Clients clients;
+        public Boolean RUN;
         final int port = 9000;
         final String path = "tomashorak.hopto.org";
         ServerSocket server;
-        LinkedList<Socket> soketsList = new LinkedList<>();
-        public ServerController() throws IOException {
-                server = new ServerSocket(port); // вот ты его тут открыл, а про закрыть не забудь!!!
-                clients = new Clients();
+        public LinkedList<Socket> socketsList = new LinkedList<>();
+        ArrayList<ClientsRunner> serverList;
+        public ServerController(){
+                RUN = true;
+                initSizeLimit();
+                start();
         }
-        ArrayList<ToDo> toDoList = new ArrayList<ToDo>();
-
-        public void getCommands() throws IOException {
-                soketsList.clear();
-                try {
-                        while (true/*Тут время должно быть*/) {
-                                Socket socket = null;
-                                try {
-                                        socket = server.accept();
-                                        soketsList.add(socket);
-                                } catch (IOException e) {
-                                        socket.close();
-                                }
-                        }
-                } finally {
-                        server.close();
-                }
-        }
+        public ArrayList<ToDo> toDoList = new ArrayList<ToDo>();
 
         public Point initSizeLimit(){
                 InputStream inputStream = null;
@@ -61,19 +45,51 @@ public class ServerController {
 
                         inputStream.close();
                 } catch (IOException e) {
+                        RUN = false;
                         throw new RuntimeException(e);
                 }
 
                 return new Point(X, Y);
         }
 
+        @Override
+        public void run() {
+                serverList = new ArrayList<>();
+
+                try {
+                        server = new ServerSocket(port); // вот ты его тут открыл, а про закрыть не забудь!!!
+                        try (ServerSocket server = new ServerSocket(port)) {
+                                while (RUN) {
+                                        Socket socket = server.accept();
+                                        socketsList.add(socket);
+                                        serverList.add(new ClientsRunner(socket, RUN));
+                                }
+                        } catch (IOException e){
+                                RUN = false;
+                        }
+
+                } catch (IOException e) {
+                        throw new RuntimeException(e);
+                } finally {
+                        try {
+                                if(!server.isClosed())
+                                        server.close();
+                        } catch (IOException e) {
+                                e.printStackTrace();
+                        }
+                }
+        }
+
         public Clients initClients(){
                 return clients;
         }
         public ArrayList<ToDo> sendCommands(){
+                for(ClientsRunner clientsRunner : serverList)
+                        toDoList.addAll(clientsRunner.getToDoList());
+
                 return toDoList;
         }
         public LinkedList<Socket> getSockets() {
-                return soketsList;
+                return socketsList;
         }
 }

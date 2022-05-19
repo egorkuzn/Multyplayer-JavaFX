@@ -13,17 +13,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class City {
-
+    Boolean RUN;
     final Point spaceSize;
     HashMap<Actor, ActiveModel> models = new HashMap<>();
     //Может быть не строка, а хэш, но это на будущее
-    HashMap<String, ArrayList<Integer>> letter_from_server = new HashMap<>();
-    HashMap<Integer, PassiveStatus> passive_models = new HashMap<>();
+    HashMap<String, ArrayList<Point>> letter_from_server = new HashMap<>();
+    HashMap<Point, PassiveStatus> passive_models = new HashMap<>();
     ServerController controller;
     Clients clients;
 
     public City(ServerController controller){
         this.controller = controller;
+        RUN = controller.RUN;
         spaceSize = controller.initSizeLimit();
         clients = controller.initClients();
     }
@@ -54,7 +55,6 @@ public class City {
     }
 
     public void run(){
-        Boolean RUN  = true;
         while (RUN) {
             refresh(RUN);
             sendLetter(RUN);
