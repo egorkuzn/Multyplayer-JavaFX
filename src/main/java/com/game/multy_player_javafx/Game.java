@@ -4,12 +4,12 @@ import com.game.multy_player_javafx.mvc.controller.ClientController;
 import com.game.multy_player_javafx.mvc.controller.ServerController;
 import com.game.multy_player_javafx.mvc.model.City;
 import com.game.multy_player_javafx.mvc.model.networking.Server;
-import com.game.multy_player_javafx.mvc.view.LayoutManager;
+import com.game.multy_player_javafx.mvc.view.JavaFxApplication;
+import com.game.multy_player_javafx.mvc.view.ViewManager;
 
 public class Game {
     int userLimit;
     String pathToServer;
-    Server server;
     public Game(int userLimit, String pathToServer){
         this.userLimit = userLimit;
         this.pathToServer = pathToServer;
@@ -19,9 +19,7 @@ public class Game {
 // как-то нужно сделать задержки, чтобы они были адекватными
 
     public void clientRun(){
-        ClientController controller = new ClientController();
-        LayoutManager layoutManager = new LayoutManager(controller);
-        layoutManager.run();
+        ViewManager view = new ViewManager();
     }
 
     public void serverRun(){
