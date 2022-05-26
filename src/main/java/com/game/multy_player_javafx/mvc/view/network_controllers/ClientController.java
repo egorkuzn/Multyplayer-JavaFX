@@ -36,4 +36,8 @@ public class ClientController extends Thread{
 
         return true;
     }
+
+    public void setCommand(String s) {
+
+    }
 }
