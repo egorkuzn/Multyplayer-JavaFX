@@ -56,6 +56,7 @@ public class City {
 
     public void run(){
         while (RUN) {
+            setToDo();
             refresh(RUN);
             sendLetter(RUN);
         }

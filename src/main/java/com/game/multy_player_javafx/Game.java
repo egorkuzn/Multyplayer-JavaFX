@@ -1,11 +1,9 @@
 package com.game.multy_player_javafx;
 
-import com.game.multy_player_javafx.mvc.controller.ClientController;
 import com.game.multy_player_javafx.mvc.controller.ServerController;
 import com.game.multy_player_javafx.mvc.model.City;
-import com.game.multy_player_javafx.mvc.model.networking.Server;
 import com.game.multy_player_javafx.mvc.view.JavaFxApplication;
-import com.game.multy_player_javafx.mvc.view.ViewManager;
+import javafx.application.Application;
 
 public class Game {
     int userLimit;
@@ -19,7 +17,12 @@ public class Game {
 // как-то нужно сделать задержки, чтобы они были адекватными
 
     public void clientRun(){
-        ViewManager view = new ViewManager();
+        new Thread(){
+            @Override
+            public void run() {
+                Application.launch(JavaFxApplication.class, new String[]{});
+            }
+        }.start();
     }
 
     public void serverRun(){

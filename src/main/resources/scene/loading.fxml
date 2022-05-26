@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane cache="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.game.multy_player_javafx.mvc.view.view_controllers.LoadController">
+   <center>
+      <ImageView pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+         <image>
+            <Image url="@/background_images/loading.gif" />
+         </image>
+      </ImageView>
+   </center>
+   <bottom>
+      <Label fx:id="statusMessage" alignment="CENTER" contentDisplay="CENTER" text="Connecting to the server..." textFill="WHITE" BorderPane.alignment="BOTTOM_RIGHT">
+         <font>
+            <Font name="Symbol" size="18.0" />
+         </font>
+      </Label>
+   </bottom>
+</BorderPane>

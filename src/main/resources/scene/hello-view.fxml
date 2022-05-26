@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane fx:id="field" cache="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-image: url(&quot;background_images/city_start_img.gif&quot;);" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.game.multy_player_javafx.mvc.view.view_controllers.HelloController">
+   <right>
+      <Button fx:id="button" mnemonicParsing="false" style="-fx-background-color: #f87b28;" text="CLICK TO CONTINUE..." textFill="#830000" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="Impact" size="37.0" />
+         </font>
+      </Button>
+   </right>
+</BorderPane>
