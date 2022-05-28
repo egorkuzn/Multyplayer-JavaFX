@@ -1,18 +1,22 @@
 package com.game.multy_player_javafx.mvc.view.network_controllers;
 
 import com.game.multy_player_javafx.mvc.model.networking.Letter;
+import com.game.multy_player_javafx.mvc.model.passive.Point;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-public class LetterReciever extends Thread{
+public class LetterReceiver extends Thread{
     Socket clientSocket;
     Boolean RUN = true;
-    String path = "0.0.0.0";
+    String path = "tomashorak.hopto.org";
     int port = 9000;
     Letter letter;
     ObjectInputStream reader;
+    boolean isNormal = true;
     @Override
     public void run() {
         try {
@@ -27,11 +31,20 @@ public class LetterReciever extends Thread{
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            isNormal = false;
         }
     }
 
-    public Letter getLetter(){
-        return letter;
+    public HashMap<String, ArrayList<Point>> getMap(){
+        HashMap<String, ArrayList<Point>> map = letter.getData_keeper();
+        letter = null;
+        return map;
+    }
+
+    public boolean itWorks(){
+        return isNormal;
+    }
+    public boolean newLetter(){
+        return letter != null;
     }
 }

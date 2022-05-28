@@ -24,8 +24,10 @@ public class LoadController {
         });
 
         statusMessage.setOnMouseClicked(mouseEvent -> {
-            if(isClickable)
+            if(isClickable) {
                 javaFxTool.setStage(stage, "START_PANEL");
+                isClickable = false;
+            }
         });
     }
 }

@@ -84,6 +84,8 @@ public class ServerController extends Thread{
                 return clients;
         }
         public ArrayList<ToDo> sendCommands(){
+                toDoList.clear();
+
                 for(ClientsRunner clientsRunner : serverList)
                         toDoList.addAll(clientsRunner.getToDoList());
 

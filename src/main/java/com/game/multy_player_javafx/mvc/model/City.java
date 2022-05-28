@@ -31,10 +31,14 @@ public class City {
 
     private void setToDo(){
         ArrayList<ToDo> toDoList = controller.sendCommands();
-        Clients.setClientsList(controller.getSockets());
 
-        for (ToDo toDo: toDoList)
-            setUniqueToDo(toDo);
+        if(!toDoList.isEmpty()) {
+            Clients.setClientsList(controller.getSockets());
+            models.clear();
+
+            for (ToDo toDo : toDoList)
+                setUniqueToDo(toDo);
+        }
     }
 
     private void setUniqueToDo(ToDo toDo){
