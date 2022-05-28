@@ -31,8 +31,8 @@ public class ServerController extends Thread{
 
                 try {
                         Properties prop = new Properties();
-                        final String propFileName = "/init_params";
-                        inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+                        final String propFileName = "/init_params.properties";
+                        inputStream = getClass().getResourceAsStream(propFileName);
 
                         if (inputStream != null) {
                                 prop.load(inputStream);

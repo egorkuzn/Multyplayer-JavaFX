@@ -55,6 +55,7 @@ public class City {
     }
 
     private void sendLetter(Boolean RUN) {
+        if(clients != null)
            clients.send(letter_from_server, RUN);
     }
 
