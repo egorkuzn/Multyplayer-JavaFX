@@ -13,7 +13,7 @@ import java.util.Properties;
 public class ServerController extends Thread{
         Clients clients;
         public Boolean RUN;
-        final int port = 8080;
+        final int port = 9000;
         ServerSocket server;
         public LinkedList<Socket> socketsList = new LinkedList<>();
         ArrayList<ClientsRunner> serverList;
@@ -57,18 +57,16 @@ public class ServerController extends Thread{
 
                 try {
                         server = new ServerSocket(port, 10); // вот ты его тут открыл, а про закрыть не забудь!!!
-                        try (ServerSocket server = new ServerSocket(port)) {
-                                while (RUN) {
-                                        Socket socket = server.accept();
-                                        socketsList.add(socket);
-                                        serverList.add(new ClientsRunner(socket, RUN));
-                                }
-                        } catch (IOException e){
-                                RUN = false;
+
+                        while (RUN) {
+                                Socket socket = server.accept();
+                                socketsList.add(socket);
+                                serverList.add(new ClientsRunner(socket, RUN));
                         }
 
                 } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        RUN = false;
+                        e.printStackTrace();
                 } finally {
                         try {
                                 if(!server.isClosed())

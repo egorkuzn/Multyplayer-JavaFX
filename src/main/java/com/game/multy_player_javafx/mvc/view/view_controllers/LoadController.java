@@ -25,7 +25,13 @@ public class LoadController {
 
         statusMessage.setOnMouseClicked(mouseEvent -> {
             if(isClickable) {
-                javaFxTool.setStage(stage, "START_PANEL");
+                if(status.equals("Press to continue ...")) {
+                    CityController.stage = stage;
+                    javaFxTool.setStage(stage, "CITY");
+                }
+                else
+                    javaFxTool.setStage(stage, "START_PANEL");
+
                 isClickable = false;
             }
         });

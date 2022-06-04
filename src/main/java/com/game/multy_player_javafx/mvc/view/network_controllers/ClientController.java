@@ -1,45 +1,28 @@
 package com.game.multy_player_javafx.mvc.view.network_controllers;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.net.DatagramSocket;
 import java.net.Socket;
 
-public class ClientController{
-    final String path = "127.0.0.1";
-    final int port= 8080;
+public class ClientController extends Thread{
+    final String path = "localhost";
+    final int port= 9000;
     BufferedWriter out;
     Socket clientSocket;
-    public boolean status;
+    public boolean status = true;
 
     boolean playerConnetionInit(){
         try {
             clientSocket = new Socket(path, port);
-
-            try {
-                FileWriter out = new FileWriter("out.txt");
-                out.write("works");
-                out.flush();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-
+            out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
         } catch (IOException e) {
-            try {
-                FileWriter out = new FileWriter("out.txt");
-                out.write("doesn't works");
-                out.flush();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-
+            e.printStackTrace();
             return false;
         }
 
         return true;
     }
-
+    @Override
     public void run() {
         status = playerConnetionInit();
     }

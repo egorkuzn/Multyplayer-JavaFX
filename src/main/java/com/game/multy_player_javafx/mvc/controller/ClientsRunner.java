@@ -27,6 +27,7 @@ public class ClientsRunner extends Thread{
             RUN = false;
             e.printStackTrace();
         }
+
         start();
     }
 
@@ -48,15 +49,14 @@ public class ClientsRunner extends Thread{
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if(!socket.isClosed())
+                    socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-//        } finally {
-//            try {
-//                if(!socket.isClosed())
-//                    socket.close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
     }
 
     public ArrayList<ToDo> getToDoList() {

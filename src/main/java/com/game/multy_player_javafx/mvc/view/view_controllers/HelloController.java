@@ -18,10 +18,11 @@ public class HelloController {
 
     @FXML
     void initialize(){
+        clientController.run();
+
         button.setOnAction(actionEvent -> {
             LoadController.stage = stage;
             javaFxTool.setStage(stage,"LOADING_STAGE");
-            clientController.run();
 
             if(clientController.status)
                 continueGame();
@@ -39,8 +40,8 @@ public class HelloController {
 
     @FXML
     void continueGame(){
-        CityController.stage = stage;
-        javaFxTool.setStage(stage, "CITY");
+        LoadController.status = "Press to continue ...";
+        LoadController.isClickable = true;
     }
 
     void showConnectionException(){

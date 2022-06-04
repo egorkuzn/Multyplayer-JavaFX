@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class LetterReceiver extends Thread{
     Socket clientSocket;
     Boolean RUN = true;
-    String path = "tomashorak.hopto.org";
+    String path = "192.168.100.234";
     int port = 9000;
     Letter letter;
     ObjectInputStream reader;
