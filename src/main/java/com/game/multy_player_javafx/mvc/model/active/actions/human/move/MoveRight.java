@@ -34,7 +34,7 @@ public class MoveRight implements Action {
 
     @Override
     public String getViewParam() {
-        return "_right";
+        return "_right:" + energy;
     }
 
     @Override

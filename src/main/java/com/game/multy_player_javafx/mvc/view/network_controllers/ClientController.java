@@ -1,12 +1,14 @@
 package com.game.multy_player_javafx.mvc.view.network_controllers;
 
 import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.net.DatagramSocket;
 import java.net.Socket;
 
-public class ClientController extends Thread{
-    final String path = "tomashorak.hopto.org";
-    final int port= 9000;
+public class ClientController{
+    final String path = "127.0.0.1";
+    final int port= 8080;
     BufferedWriter out;
     Socket clientSocket;
     public boolean status;
@@ -14,14 +16,30 @@ public class ClientController extends Thread{
     boolean playerConnetionInit(){
         try {
             clientSocket = new Socket(path, port);
+
+            try {
+                FileWriter out = new FileWriter("out.txt");
+                out.write("works");
+                out.flush();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+
         } catch (IOException e) {
+            try {
+                FileWriter out = new FileWriter("out.txt");
+                out.write("doesn't works");
+                out.flush();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+
             return false;
         }
 
         return true;
     }
 
-    @Override
     public void run() {
         status = playerConnetionInit();
     }

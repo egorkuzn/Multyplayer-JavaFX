@@ -33,7 +33,7 @@ public class MoveUp implements Action {
 
     @Override
     public String getViewParam() {
-        return "_up";
+        return "_up:" + energy;
     }
 
     @Override

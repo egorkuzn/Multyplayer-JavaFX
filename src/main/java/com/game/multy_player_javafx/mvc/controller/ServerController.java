@@ -13,8 +13,7 @@ import java.util.Properties;
 public class ServerController extends Thread{
         Clients clients;
         public Boolean RUN;
-        final int port = 9000;
-        final String path = "tomashorak.hopto.org";
+        final int port = 8080;
         ServerSocket server;
         public LinkedList<Socket> socketsList = new LinkedList<>();
         ArrayList<ClientsRunner> serverList;
@@ -57,7 +56,7 @@ public class ServerController extends Thread{
                 serverList = new ArrayList<>();
 
                 try {
-                        server = new ServerSocket(port); // вот ты его тут открыл, а про закрыть не забудь!!!
+                        server = new ServerSocket(port, 10); // вот ты его тут открыл, а про закрыть не забудь!!!
                         try (ServerSocket server = new ServerSocket(port)) {
                                 while (RUN) {
                                         Socket socket = server.accept();

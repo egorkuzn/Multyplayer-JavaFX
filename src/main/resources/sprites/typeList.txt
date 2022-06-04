@@ -1,4 +1,4 @@
-GIRL;;
-BOY;;
-CAR;;
-DOG;;
+GIRL;32;81;30;80;0;0;sprites/images/sprites_set.png
+BOY;32;81;30;80;0;0;sprites/images/sprites_set.png
+CAR;32;81;30;80;0;0;sprites/images/sprites_set.png
+DOG;32;81;30;80;0;0;sprites/images/sprites_set.png

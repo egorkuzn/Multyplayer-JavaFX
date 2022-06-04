@@ -34,7 +34,7 @@ public class MoveDown implements Action {
 
     @Override
     public String getViewParam() {
-        return "_down";
+        return "_down:" + energy;
     }
 
     @Override

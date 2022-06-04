@@ -18,11 +18,10 @@ public class HelloController {
 
     @FXML
     void initialize(){
-        clientController.run();
-
         button.setOnAction(actionEvent -> {
             LoadController.stage = stage;
             javaFxTool.setStage(stage,"LOADING_STAGE");
+            clientController.run();
 
             if(clientController.status)
                 continueGame();

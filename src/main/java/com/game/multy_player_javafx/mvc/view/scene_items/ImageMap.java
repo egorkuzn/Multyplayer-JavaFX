@@ -28,13 +28,17 @@ public class ImageMap extends Pane{
             while ((line = reader.readLine()) != null){
                 String[] array = line.split(";");
 
-                if(array.length != 3)
+                if(array.length != 8)
                     throw new IOException();
 
                 Type type   = new Type();
-                type.width  = Double.parseDouble(array[1]);
-                type.height = Double.parseDouble(array[2]);
-                type.path   = array[3];
+                type.gridWidth = Double.parseDouble(array[1]);
+                type.gridHeight = Double.parseDouble(array[2]);
+                type.width  = Double.parseDouble(array[3]);
+                type.height = Double.parseDouble(array[4]);
+                type.offsetX = Double.parseDouble(array[5]);
+                type.offsetY = Double.parseDouble(array[6]);
+                type.path   = array[7];
 
                 typeInfo.put(array[0], type);
             }
@@ -48,12 +52,10 @@ public class ImageMap extends Pane{
             }
         }
     }
-    public void add(String type, Point coordinates){
-        ImageView item = new ImageView(typeInfo.get(type).path);
-        item.setViewport(new Rectangle2D(0, // перспектива
-                                        0,     // перспектива
-                                            typeInfo.get(type).width,
-                                            typeInfo.get(type).height));
+    public void add(String metadata, Point coordinates){
+        ScriptAnalyser struct = new ScriptAnalyser(metadata);
+        ImageView item = new ImageView(typeInfo.get(struct.getName()).path);
+        item.setViewport(new Rectangle2D(X(struct), Y(struct), width(struct), height(struct)));
 
         item.setX(coordinates.X);
         item.setY(coordinates.Y);
@@ -61,6 +63,21 @@ public class ImageMap extends Pane{
         imageList.add(item);
     }
 
+    double X(ScriptAnalyser struct){
+        return struct.getX() * typeInfo.get(struct.getName()).gridWidth + typeInfo.get(struct.getName()).offsetX;
+    }
+
+    double Y(ScriptAnalyser struct){
+        return struct.getY() * typeInfo.get(struct.getName()).gridHeight + typeInfo.get(struct.getName()).offsetY;
+    }
+
+    double width(ScriptAnalyser struct){
+        return typeInfo.get(struct.getName()).width;
+    }
+
+    double height(ScriptAnalyser struct){
+        return typeInfo.get(struct.getName()).height;
+    }
     public void setAll(){
         getChildren().setAll(imageList);
     }
