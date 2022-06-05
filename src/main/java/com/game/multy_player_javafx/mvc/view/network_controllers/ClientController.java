@@ -7,14 +7,16 @@ import java.net.Socket;
 public class ClientController extends Thread{
     final String path = "localhost";
     final int port= 9000;
-    BufferedWriter out;
-    Socket clientSocket;
+    static BufferedWriter out;
+    public static Socket clientSocket;
     public boolean status = true;
 
     boolean playerConnetionInit(){
         try {
             clientSocket = new Socket(path, port);
             out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+            if (!sendCommandToServer("*Hello!"))
+                return false;
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -22,15 +24,18 @@ public class ClientController extends Thread{
 
         return true;
     }
-    @Override
+
     public void run() {
         status = playerConnetionInit();
     }
 
-    public boolean sendCommandToServer(String message){
+    public static boolean sendCommandToServer(String message){
         try {
-            out.write(message);
-            out.flush();
+            if(message != null){
+                out.write(message);
+                out.newLine();
+                out.flush();
+            }
         } catch (IOException e) {
             e.printStackTrace();
             return false;

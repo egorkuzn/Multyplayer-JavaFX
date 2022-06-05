@@ -10,6 +10,7 @@ public class JavaFxApplication extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        javaFxTool.load();
         HelloController.stage = primaryStage;
         javaFxTool.setStage(primaryStage, "START_PANEL");
     }

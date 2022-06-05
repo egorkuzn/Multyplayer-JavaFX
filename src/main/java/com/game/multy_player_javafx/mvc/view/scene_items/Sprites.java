@@ -1,6 +1,7 @@
 package com.game.multy_player_javafx.mvc.view.scene_items;
 
 import com.game.multy_player_javafx.mvc.model.passive.Point;
+import com.game.multy_player_javafx.mvc.view.network_controllers.ClientController;
 import com.game.multy_player_javafx.mvc.view.network_controllers.LetterReceiver;
 import javafx.scene.layout.BorderPane;
 
@@ -14,6 +15,10 @@ public class Sprites extends Thread{
     public Sprites(BorderPane field){
         field.getChildren().addAll(imageMap);
         start();
+        synchronized (ClientController.clientSocket)
+        {
+            ClientController.sendCommandToServer("*Sprites thread started");
+        }
     }
 
     @Override

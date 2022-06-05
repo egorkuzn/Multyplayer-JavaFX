@@ -7,6 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class HelloController {
     public static Stage stage;
     @FXML
@@ -18,7 +20,7 @@ public class HelloController {
 
     @FXML
     void initialize(){
-        clientController.run();
+        clientController.start();
 
         button.setOnAction(actionEvent -> {
             LoadController.stage = stage;

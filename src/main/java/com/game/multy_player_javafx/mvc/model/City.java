@@ -11,8 +11,10 @@ import com.game.multy_player_javafx.mvc.model.passive.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class City {
+    Logger log = Logger.getLogger(City.class.getName());
     Boolean RUN;
     final Point spaceSize;
     HashMap<Actor, ActiveModel> models = new HashMap<>();
@@ -33,6 +35,7 @@ public class City {
         ArrayList<ToDo> toDoList = controller.sendCommands();
 
         if(!toDoList.isEmpty()) {
+            log.info("command caught");
             Clients.setClientsList(controller.getSockets());
             models.clear();
 

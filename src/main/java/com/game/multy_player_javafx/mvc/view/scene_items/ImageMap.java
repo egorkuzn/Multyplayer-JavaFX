@@ -22,7 +22,7 @@ public class ImageMap extends Pane{
         BufferedReader reader = null;
 
         try{
-            reader = new BufferedReader(new FileReader("/sprites/typeList.txt"));
+            reader = new BufferedReader(new FileReader("src/main/resources/sprites/typeList.txt"));
             String line;
 
             while ((line = reader.readLine()) != null){

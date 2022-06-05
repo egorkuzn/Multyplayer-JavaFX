@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
+import java.net.Socket;
+
 public class LoadController {
     public static Stage stage;
     public static String status = "Connecting to the server...";
