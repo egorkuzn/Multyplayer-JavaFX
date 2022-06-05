@@ -7,24 +7,32 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.logging.Logger;
+
 //tomashorak.hopto.org/9000
 public class Clients{
-    private static LinkedList<Socket> clientsList = new LinkedList<>();
-    private static final String path = "tomashorak.hopto.org";
-    public static void setClientsList(LinkedList<Socket> clientsList) {
-        Clients.clientsList = clientsList;
+    Logger log = Logger.getLogger("");
+    private LinkedList<Socket> clientsList = new LinkedList<>();
+    final String path = "tomashorak.hopto.org";
+    public void setClientsList(LinkedList<Socket> clientsList) {
+        this.clientsList = clientsList;
     }
 
-    public void send(HashMap<String, ArrayList<Point>> letter_from_server, Boolean RUN){
+    public boolean send(HashMap<String, ArrayList<Point>> letter_from_server){
         Letter letter = new Letter(letter_from_server);
+
         try {
             for (Socket socket : clientsList) {
+                //TODO: письмо нахер не нужно
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-                objectOutputStream.writeObject(letter);
+                log.info(letter_from_server.toString());
+                objectOutputStream.writeInt(50);
                 objectOutputStream.flush();
             }
         } catch (IOException e){
-            RUN = false;
+            return false;
         }
+
+        return true;
     }
 }

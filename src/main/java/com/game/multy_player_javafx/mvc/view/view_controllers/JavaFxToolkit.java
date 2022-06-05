@@ -11,6 +11,8 @@ import java.util.HashMap;
 
 public class JavaFxToolkit {
     static HashMap<String, Scene> cashData = new HashMap<>();
+    static String currentStageName = "";
+
     public void load(){
         if(cashData.isEmpty()) {
             try {
@@ -28,6 +30,7 @@ public class JavaFxToolkit {
         primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         primaryStage.setFullScreen(true);
         primaryStage.show();
+        currentStageName = sceneName;
     }
 
     void loadAllFXML() throws IOException {
@@ -38,6 +41,11 @@ public class JavaFxToolkit {
         cashData.put("LOADING_STAGE", new Scene(root));
 
         root = FXMLLoader.load(getClass().getResource("/scene/city.fxml"));
+
         cashData.put("CITY", new Scene(root));
+    }
+
+    public String getCurrentStageName(){
+        return currentStageName;
     }
 }

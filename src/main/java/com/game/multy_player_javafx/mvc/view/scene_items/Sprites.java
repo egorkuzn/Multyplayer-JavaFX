@@ -15,10 +15,6 @@ public class Sprites extends Thread{
     public Sprites(BorderPane field){
         field.getChildren().addAll(imageMap);
         start();
-        synchronized (ClientController.clientSocket)
-        {
-            ClientController.sendCommandToServer("*Sprites thread started");
-        }
     }
 
     @Override

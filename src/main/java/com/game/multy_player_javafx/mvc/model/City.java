@@ -8,6 +8,7 @@ import com.game.multy_player_javafx.mvc.model.networking.Clients;
 import com.game.multy_player_javafx.mvc.model.passive.PassiveStatus;
 import com.game.multy_player_javafx.mvc.model.passive.Point;
 
+import java.sql.Struct;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,15 +29,18 @@ public class City {
         this.controller = controller;
         RUN = controller.RUN;
         spaceSize = controller.initSizeLimit();
-        clients = controller.initClients();
+        clients = new Clients();
+        log.info("\'City\' started");
     }
 
     private void setToDo(){
-        ArrayList<ToDo> toDoList = controller.sendCommands();
+        ArrayList<ToDo> toDoList;
+
+        toDoList = controller.sendCommands();
 
         if(!toDoList.isEmpty()) {
-            log.info("command caught");
-            Clients.setClientsList(controller.getSockets());
+            log.info("---");
+            clients.setClientsList(controller.getSockets());
             models.clear();
 
             for (ToDo toDo : toDoList)
@@ -45,28 +49,37 @@ public class City {
     }
 
     private void setUniqueToDo(ToDo toDo){
-        if(!models.containsKey(toDo.who()))
+        if(!models.containsKey(toDo.who())) {
             models.put(toDo.who(), new ActiveModel(toDo.who()));
+        }
 
         models.get(toDo.who()).setToDo(toDo.what(), passive_models);
     }
 
-    private void refresh(Boolean RUN){
+    private boolean refresh(){
         letter_from_server.clear();
-        for(Map.Entry<Actor, ActiveModel> model : models.entrySet())
-            model.getValue().refresh(letter_from_server, RUN);
+        for(Map.Entry<Actor, ActiveModel> model : models.entrySet()) {
+            if(!model.getValue().refresh(letter_from_server))
+                return false;
+        }
+
+        return true;
     }
 
-    private void sendLetter(Boolean RUN) {
+    private boolean sendLetter() {
         if(clients != null)
-           clients.send(letter_from_server, RUN);
+            return clients.send(letter_from_server);
+
+        return true;
     }
 
     public void run(){
         while (RUN) {
             setToDo();
-            refresh(RUN);
-            sendLetter(RUN);
+            RUN = refresh();
+            RUN = sendLetter();
         }
+
+        log.info("That's all)))");
     }
 }

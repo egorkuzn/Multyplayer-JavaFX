@@ -9,14 +9,15 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 public class ServerController extends Thread{
-        Clients clients;
+        Logger log = Logger.getLogger("");
         public Boolean RUN;
         final int port = 9000;
         ServerSocket server;
         public LinkedList<Socket> socketsList = new LinkedList<>();
-        ArrayList<ClientsRunner> serverList;
+        ArrayList<ClientsRunner> serverList = new ArrayList<>();
         public ServerController(){
                 RUN = true;
                 initSizeLimit();
@@ -53,15 +54,17 @@ public class ServerController extends Thread{
 
         @Override
         public void run() {
-                serverList = new ArrayList<>();
-
                 try {
                         server = new ServerSocket(port, 10); // вот ты его тут открыл, а про закрыть не забудь!!!
 
                         while (RUN) {
                                 Socket socket = server.accept();
-                                socketsList.add(socket);
-                                serverList.add(new ClientsRunner(socket, RUN));
+
+                                synchronized (this) {
+                                        socketsList.add(socket);
+                                        serverList.add(new ClientsRunner(socket, RUN));
+                                        log.info("Length: " + serverList.size());
+                                }
                         }
 
                 } catch (IOException e) {
@@ -77,18 +80,21 @@ public class ServerController extends Thread{
                 }
         }
 
-        public Clients initClients(){
-                return clients;
-        }
         public ArrayList<ToDo> sendCommands(){
                 toDoList.clear();
 
-                for(ClientsRunner clientsRunner : serverList)
-                        toDoList.addAll(clientsRunner.getToDoList());
+                synchronized (this) {
+                        for (ClientsRunner clientsRunner : serverList) {
+                                if (clientsRunner.contains())
+                                        toDoList.addAll(clientsRunner.getToDoList());
+                        }
+                }
 
                 return toDoList;
         }
         public LinkedList<Socket> getSockets() {
-                return socketsList;
+                synchronized (this) {
+                        return socketsList;
+                }
         }
 }

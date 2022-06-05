@@ -7,11 +7,12 @@ import javafx.stage.Stage;
 
 public class JavaFxApplication extends Application{
     JavaFxToolkit javaFxTool = new JavaFxToolkit();
+    public static Stage stage;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         javaFxTool.load();
-        HelloController.stage = primaryStage;
+        stage = primaryStage;
         javaFxTool.setStage(primaryStage, "START_PANEL");
     }
 }

@@ -13,5 +13,5 @@ public enum ActiveStatus {
 
     public int energy = 0;
     public int speed = 0;
-    public HashMap<String, Action> actionList;
+    public HashMap<String, Action> actionList = new HashMap<>();
 }

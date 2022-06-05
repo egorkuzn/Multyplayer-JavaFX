@@ -7,11 +7,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.CharBuffer;
 import java.util.ArrayList;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 
 public class ClientsRunner extends Thread{
-    Logger log = Logger.getLogger(ClientsRunner.class.getName());
-    String thread_information;
+    ReentrantLock lock = new ReentrantLock();
+    Logger log = Logger.getLogger("");
+    String thread_information = "";
     Boolean RUN;
     Socket socket;
     ArrayList<String> message_keeper = new ArrayList<>();
@@ -37,28 +39,24 @@ public class ClientsRunner extends Thread{
         String message =  "";
         try {
             while (RUN){
-                log.info("Waiting of reading:");
                 message = reader.readLine();
                 if(message.equals("stop")) {
                     log.info("stop");
                     break;
-                } else if(message.startsWith("*"))
-                    log.info(message);
-                else if(message.startsWith("THREAD_")) {
-                    log.info("thread_info");
-                    thread_information = message.substring(7);
-                }
-                else {
-                    log.info("message");
+                } else if(message.startsWith("THREAD_")) {
+                    synchronized (this) {
+                        thread_information = message.substring(7);
+                    }
+                } else {
                     log.info(message);
 
-                    if(!message.isEmpty())
-                        message_keeper.add(message);
+                    if(!message.isEmpty() && !message.startsWith("*")) {
+                        synchronized (this) {
+                            message_keeper.add(message);
+                        }
+                    }
                 }
-                log.info("--to_the_next--");
             }
-
-            log.info("Finishing ...");
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -74,14 +72,27 @@ public class ClientsRunner extends Thread{
     }
 
     public ArrayList<ToDo> getToDoList() {
-        for(String message: message_keeper) {
-            try {
-                toDoList.add(new ToDo(thread_information, message));
-            } catch (BadCommand e) {
-                e.printStackTrace();
+        toDoList.clear();
+
+        synchronized (this) {
+            for (String message : message_keeper) {
+                try {
+                    toDoList.add(new ToDo(thread_information, message));
+                    log.info(toDoList.get(0).who().showName());
+                } catch (BadCommand e) {
+                    e.printStackTrace();
+                }
             }
+
+            message_keeper.clear();
         }
 
         return toDoList;
+    }
+
+    public boolean contains() {
+        synchronized (this) {
+            return !message_keeper.isEmpty();
+        }
     }
 }

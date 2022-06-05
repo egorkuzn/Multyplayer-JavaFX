@@ -1,5 +1,6 @@
 package com.game.multy_player_javafx.mvc.view.view_controllers;
 
+import com.game.multy_player_javafx.mvc.view.JavaFxApplication;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
@@ -7,7 +8,6 @@ import javafx.stage.Stage;
 import java.net.Socket;
 
 public class LoadController {
-    public static Stage stage;
     public static String status = "Connecting to the server...";
     public  static  boolean isClickable = false;
     JavaFxToolkit javaFxTool = new JavaFxToolkit();
@@ -27,12 +27,10 @@ public class LoadController {
 
         statusMessage.setOnMouseClicked(mouseEvent -> {
             if(isClickable) {
-                if(status.equals("Press to continue ...")) {
-                    CityController.stage = stage;
-                    javaFxTool.setStage(stage, "CITY");
-                }
+                if(status.equals("Press to continue ..."))
+                    javaFxTool.setStage(JavaFxApplication.stage, "CITY");
                 else
-                    javaFxTool.setStage(stage, "START_PANEL");
+                    javaFxTool.setStage(JavaFxApplication.stage, "START_PANEL");
 
                 isClickable = false;
             }

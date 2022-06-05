@@ -1,5 +1,6 @@
 package com.game.multy_player_javafx.mvc.view.view_controllers;
 
+import com.game.multy_player_javafx.mvc.view.JavaFxApplication;
 import com.game.multy_player_javafx.mvc.view.network_controllers.ClientController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -10,27 +11,30 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class HelloController {
-    public static Stage stage;
     @FXML
     private Button button;
     @FXML
     private BorderPane field = new BorderPane();
     private JavaFxToolkit javaFxTool = new JavaFxToolkit();
     ClientController clientController = new ClientController();
+    boolean firstTime = true;
 
     @FXML
     void initialize(){
         clientController.start();
 
-        button.setOnAction(actionEvent -> {
-            LoadController.stage = stage;
-            javaFxTool.setStage(stage,"LOADING_STAGE");
+        if(firstTime) {
+            button.setOnAction(actionEvent -> {
+                javaFxTool.setStage(JavaFxApplication.stage, "LOADING_STAGE");
 
-            if(clientController.status)
-                continueGame();
-            else
-                showConnectionException();
-        });
+                if (clientController.status)
+                    continueGame();
+                else
+                    showConnectionException();
+
+                firstTime = false;
+            });
+        }
 
         field.setOnKeyTyped(keyEvent -> {
             if(keyEvent.getCharacter().equals("q")) {

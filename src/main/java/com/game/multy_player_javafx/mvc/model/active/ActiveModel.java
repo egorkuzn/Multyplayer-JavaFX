@@ -12,8 +12,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 public class ActiveModel {
+    Logger log = Logger.getLogger("");
     private String modelName;
     //первое - будет держать актуальный статус
     //второе - для возврата к прошлому актуальному
@@ -47,23 +49,26 @@ public class ActiveModel {
     }
 
     private boolean foundAtProperties(String taskName){
-        InputStream inputStream = null;
+        log.info("Searching at props");
 
         try{
             Properties prop = new Properties();
-            final String propFileName = "actions." + status[0].name().toLowerCase();
+            final String propFileName = status[0].name().toLowerCase() + ".properties";
 
-            inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
 
             if(inputStream != null)
                 prop.load(inputStream);
             else
                 return false;
 
+            log.info(taskName);
+            Action obj = (Action) Class.forName(prop.getProperty(taskName)).getConstructor().newInstance();
             inputStream.close();
-            Action obj = (Action) Class.forName(taskName).getDeclaredConstructor().newInstance();
+
             status[0].actionList.put(taskName, obj);
 
+            log.info("FOUND!");
             return true;
         } catch (IOException | ClassNotFoundException | InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
             e.printStackTrace();
@@ -72,25 +77,31 @@ public class ActiveModel {
     }
 
     public void setToDo(Task task, HashMap<Point, PassiveStatus> passive_models){
+        log.info("todo setting");
         this.passive_models = passive_models;
 
         if(status[0].actionList.containsKey(task.getTaskName()))
             action = status[0].actionList.get(task.getTaskName()).clone();
         else if(foundAtProperties(task.getTaskName()))
             action = status[0].actionList.get(task.getTaskName()).clone();
+        else log.info("TODO not found in props");
     }
 
-    public void refresh(HashMap<String, ArrayList<Point>> letter_to_server, Boolean RUN){
-        if(action != null)
-            RUN = action.make(modelName, coordinate, status, passive_models, letter_to_server);
+    public boolean refresh(HashMap<String, ArrayList<Point>> letter_to_server){
+        if(action != null) {
+            log.info("Refreshed");
+            boolean RUN = action.make(modelName, coordinate, status, passive_models, letter_to_server);
 
-        String word = status[0].name() + action.getViewParam();
-        ArrayList<Point> coordinate_list = new ArrayList<>();
+            String word = status[0].name() + action.getViewParam();
 
-        if(letter_to_server.containsKey(word))
-            coordinate_list = new ArrayList<>(letter_to_server.get(word));
+            if(!letter_to_server.containsKey(word))
+                letter_to_server.put(word, new ArrayList<>());
 
-        coordinate_list.add(coordinate);
-        letter_to_server.put(word , coordinate_list);
+            letter_to_server.get(word).add(coordinate);
+
+            return RUN;
+        }
+
+        return true;
     }
 }
