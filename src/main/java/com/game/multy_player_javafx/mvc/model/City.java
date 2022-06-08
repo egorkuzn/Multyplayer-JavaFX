@@ -42,8 +42,7 @@ public class City {
         if(!toDoList.isEmpty()) {
             log.info("---");
             clients.setClientsList(controller.getSockets());
-            models.clear();
-
+// in prev version model cleaner was there
             for (ToDo toDo : toDoList)
                 setUniqueToDo(toDo);
         }
@@ -59,6 +58,7 @@ public class City {
 
     private boolean refresh(){
         letter_from_server.clear();
+
         for(Map.Entry<Actor, ActiveModel> model : models.entrySet()) {
             if(!model.getValue().refresh(letter_from_server))
                 return false;
@@ -68,7 +68,7 @@ public class City {
     }
 
     private boolean sendLetter() {
-        if(clients != null)
+        if(clients != null && !letter_from_server.isEmpty())
             return clients.send(letter_from_server);
 
         return true;
