@@ -1,6 +1,8 @@
 package com.game.multy_player_javafx.mvc.model.passive;
 
-public class Point {
+import java.io.Serializable;
+
+public class Point implements Serializable {
     public int X;
     public int Y;
 

@@ -12,6 +12,7 @@ import java.sql.Struct;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 public class City {
@@ -78,6 +79,11 @@ public class City {
             setToDo();
             RUN = refresh();
             RUN = sendLetter();
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         log.info("That's all)))");

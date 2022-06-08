@@ -23,10 +23,10 @@ public class Clients{
 
         try {
             for (Socket socket : clientsList) {
-                //TODO: письмо нахер не нужно
+
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-                log.info(letter_from_server.toString());
-                objectOutputStream.writeInt(50);
+                objectOutputStream.writeObject(letter);
+                log.info("Send out...");
                 objectOutputStream.flush();
             }
         } catch (IOException e){
