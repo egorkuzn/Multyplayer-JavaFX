@@ -1,8 +1,8 @@
 package com.game.multy_player_javafx.mvc.view.scene_items;
 
 import com.game.multy_player_javafx.mvc.model.passive.Point;
-import com.game.multy_player_javafx.mvc.view.network_controllers.ClientController;
 import com.game.multy_player_javafx.mvc.view.network_controllers.LetterReceiver;
+import javafx.application.Platform;
 import javafx.scene.layout.BorderPane;
 
 import java.util.ArrayList;
@@ -20,6 +20,7 @@ public class Sprites extends Thread {
 
     @Override
     public void run() {
+        heroChoose();
         letterReceiver.start();
 
         while (letterReceiver.itWorks()) {
@@ -47,5 +48,9 @@ public class Sprites extends Thread {
             }
 
         imageMap.setAll();
+    }
+
+    void heroChoose(){
+        Platform.runLater(new HeroChoose(imageMap));
     }
 }

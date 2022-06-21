@@ -37,7 +37,7 @@ public class HelloController {
         }
 
         field.setOnKeyTyped(keyEvent -> {
-            if(keyEvent.getCharacter().equals("q")) {
+            if(keyEvent.getCharacter().equals("q") || keyEvent.getCharacter().equals("Q")) {
                 Platform.exit();
                 System.exit(0);
             }

@@ -3,8 +3,10 @@ package com.game.multy_player_javafx.mvc.view.view_controllers;
 import com.game.multy_player_javafx.mvc.view.JavaFxApplication;
 import com.game.multy_player_javafx.mvc.view.network_controllers.ClientController;
 import com.game.multy_player_javafx.mvc.view.scene_items.Sprites;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 
@@ -27,14 +29,14 @@ public class CityController {
     void initialize(){
         getKeyMap();
 
-        image.setOnMouseEntered(mouseEvent -> image.getScene().setOnKeyTyped(keyEvent -> {
-            if(notFirstTime)
-                usualBlock(keyEvent);
+        image.setOnMouseEntered(mouseEvent -> {
+            if (notFirstTime)
+                image.getScene().setOnKeyTyped(this::usualBlock);
             else
                 userInit();
 
             notFirstTime = true;
-        }));
+        });
     }
 
     void getKeyMap(){
@@ -60,6 +62,11 @@ public class CityController {
     }
 
     void usualBlock(KeyEvent keyEvent){
+        if(keyEvent.getCharacter().equals("q") || keyEvent.getCharacter().equals("Q")) {
+            Platform.exit();
+            System.exit(0);
+        }
+
         if (commandByKey.containsKey(keyEvent.getCharacter())) {
             if (!ClientController.sendCommandToServer(commandByKey.get(keyEvent.getCharacter())))
                 connectionLose();
@@ -75,13 +82,5 @@ public class CityController {
     void userInit(){
         Sprites sprites = new Sprites(surface);
         sprites.start();
-
-        String inputedName = "Valentine"; // TODO: make special window for init data input
-        String sex = "BOY";
-
-        synchronized (ClientController.clientSocket) {
-            ClientController.sendCommandToServer("THREAD_" + inputedName + " " + sex);
-            ClientController.sendCommandToServer("INIT");
-        }
     }
 }

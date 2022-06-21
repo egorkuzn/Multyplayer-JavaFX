@@ -19,6 +19,7 @@ public class ImageMap extends Pane{
     }
     ArrayList<ImageView> imageList = new ArrayList<>();
     static HashMap<String, Type> typeInfo = new HashMap<String, Type>();
+    public static HashMap<Environment, String> chooseHeroPath = new HashMap<>();
     static void getTypeInfo(){
         BufferedReader reader = null;
 
@@ -29,17 +30,24 @@ public class ImageMap extends Pane{
             while ((line = reader.readLine()) != null){
                 String[] array = line.split(";");
 
-                if(array.length != 8)
+                if(array.length < 8)
                     throw new IOException();
 
-                Type type   = new Type();
-                type.gridWidth = Double.parseDouble(array[1]);
+                Type type       = new Type();
+                type.gridWidth  = Double.parseDouble(array[1]);
                 type.gridHeight = Double.parseDouble(array[2]);
-                type.width  = Double.parseDouble(array[3]);
-                type.height = Double.parseDouble(array[4]);
-                type.offsetX = Double.parseDouble(array[5]);
-                type.offsetY = Double.parseDouble(array[6]);
-                type.path   = array[7];
+                type.width      = Double.parseDouble(array[3]);
+                type.height     = Double.parseDouble(array[4]);
+                type.offsetX    = Double.parseDouble(array[5]);
+                type.offsetY    = Double.parseDouble(array[6]);
+                type.path       = array[7];
+
+                if(array.length == 9) {
+                    if(array[0].equals("GIRL"))
+                        chooseHeroPath.put(Environment.GIRL, array[8]);
+                    else if(array[0].equals("BOY"))
+                        chooseHeroPath.put(Environment.BOY, array[8]);
+                }
 
                 typeInfo.put(array[0], type);
             }
