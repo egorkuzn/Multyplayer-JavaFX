@@ -14,7 +14,7 @@ public class LightsOff  implements Action {
         first_time = true;
     }
     @Override
-    public boolean make(String name, Point coordinate, ActiveStatus[] status, HashMap<Point, PassiveStatus> passive_models, HashMap<String, ArrayList<Point>> letter_to_server) {
+    public boolean make(String name, Point coordinate, ActiveStatus[] status, HashMap<Point, PassiveStatus> passive_models, HashMap<String, ArrayList<Point>> letter_to_server, String placeName) {
         return true;
     }
 

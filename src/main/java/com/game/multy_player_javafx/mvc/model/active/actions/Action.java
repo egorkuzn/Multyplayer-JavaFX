@@ -12,7 +12,8 @@ public interface Action {
                  Point coordinate,
                  ActiveStatus[] status,
                  HashMap<Point, PassiveStatus> passive_models,
-                 HashMap<String, ArrayList<Point>> letter_to_server);
+                 HashMap<String, ArrayList<Point>> letter_to_server,
+                 String placeName);
 
     String getViewParam();
 

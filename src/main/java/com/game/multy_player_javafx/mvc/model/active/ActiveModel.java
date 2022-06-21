@@ -23,12 +23,11 @@ public class ActiveModel {
     //Пример: сейчас CAR, а до этого ты кем был? Собака? Девушка? Парень?
     private ActiveStatus[] status = new ActiveStatus[2];
     private Action action;
-    private Point coordinate;
+    private Point coordinate = new Point();
     private HashMap<Point, PassiveStatus> passive_models;
     private HashMap<String, ArrayList<Point>> letter_to_server;
 
     public ActiveModel(Actor actor){
-        coordinate = new Point(600,400);
         modelName = actor.getName();
         setDefaultStatus(actor.getSex());
     }
@@ -94,7 +93,7 @@ public class ActiveModel {
     public boolean refresh(HashMap<String, ArrayList<Point>> letter_to_server){
         if(action != null) {
             log.info("Refreshed");
-            boolean RUN = action.make(modelName, coordinate, status, passive_models, letter_to_server);
+            boolean RUN = action.make(modelName, coordinate, status, passive_models, letter_to_server, "street");
 
             String word = status[0].name() + action.getViewParam();
 

@@ -19,7 +19,7 @@ public class MoveUp implements Action {
         first_time = true;
     }
     @Override
-    public boolean make(String name, Point coordinate, ActiveStatus[] status, HashMap<Point, PassiveStatus> passive_models, HashMap<String, ArrayList<Point>> letter_to_server) {
+    public boolean make(String name, Point coordinate, ActiveStatus[] status, HashMap<Point, PassiveStatus> passive_models, HashMap<String, ArrayList<Point>> letter_to_server, String placeName) {
         if(first_time) {
             energy = status[0].energy;
             first_time = false;
@@ -27,7 +27,9 @@ public class MoveUp implements Action {
 
         if(energy > 0) {
             energy--;
-            coordinate.Y -= status[0].speed / 2;
+
+            if(AreaFrames.isInArea(placeName, coordinate, status[0].speed / 2, Direction.UP))
+                coordinate.Y -= status[0].speed / 2;
         }
 
         return true;
