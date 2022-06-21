@@ -3,30 +3,39 @@ package com.game.multy_player_javafx.mvc.view.network_controllers;
 import java.io.*;
 import java.net.DatagramSocket;
 import java.net.Socket;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ClientController extends Thread{
     final String path = "localhost";
     final int port= 9000;
     static BufferedWriter out;
     public static Socket clientSocket;
-    public boolean status = true;
+    static AtomicBoolean status = new AtomicBoolean(false);
 
-    boolean playerConnetionInit(){
-        try {
-            clientSocket = new Socket(path, port);
-            out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
-            if (!sendCommandToServer("*Hello!"))
+    public boolean playerConnetionInit(){
+        if(!status.get()) {
+            try {
+                clientSocket = new Socket(path, port);
+                out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+
+                if (!sendCommandToServer("*Hello!")) {
+                    status.set(false);
+                    return false;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                status.set(false);
                 return false;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            }
         }
 
+        status.set(true);
         return true;
     }
 
     public void run() {
-        status = playerConnetionInit();
+        while (!status.get())
+            status.set(playerConnetionInit());
     }
 
     public static boolean sendCommandToServer(String message){
@@ -38,9 +47,15 @@ public class ClientController extends Thread{
             }
         } catch (IOException e) {
             e.printStackTrace();
+            status.set(false);
             return false;
         }
 
+        status.set(true);
         return true;
+    }
+
+    public boolean getStatus() {
+        return status.get();
     }
 }

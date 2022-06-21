@@ -2,6 +2,7 @@ package com.game.multy_player_javafx.mvc.model.active.actions.human.move;
 
 
 import com.game.multy_player_javafx.mvc.model.active.ActiveStatus;
+import com.game.multy_player_javafx.mvc.model.active.actions.car.headlights.LightsOff;
 import com.game.multy_player_javafx.mvc.model.passive.PassiveStatus;
 import com.game.multy_player_javafx.mvc.model.active.actions.Action;
 import com.game.multy_player_javafx.mvc.model.passive.Point;
@@ -34,11 +35,21 @@ public class MoveLeft implements Action {
 
     @Override
     public String getViewParam() {
-        return "_left:" + energy;
+        return "_left:" + (energy + 1);
     }
 
     @Override
     public Action clone() {
         return new MoveLeft();
+    }
+
+    @Override
+    public boolean equals(Action other) {
+        return other != null && other.getClass() == MoveLeft.class;
+    }
+
+    @Override
+    public boolean isFinished() {
+        return energy == 0;
     }
 }

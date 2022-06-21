@@ -8,7 +8,7 @@ public class Girl implements Item{
 
     @Override
     public int getX() {
-        return Integer.parseInt(info.substring(info.indexOf(':') + 1));
+        return Integer.parseInt(info.substring(info.indexOf(':') + 1)) % 3;
     }
 
     @Override

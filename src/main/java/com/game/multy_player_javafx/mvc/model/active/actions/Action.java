@@ -17,4 +17,8 @@ public interface Action {
     String getViewParam();
 
     Action clone();
+
+    boolean equals(Action other);
+
+    boolean isFinished();
 }

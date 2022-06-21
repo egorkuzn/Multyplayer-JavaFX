@@ -1,6 +1,7 @@
 package com.game.multy_player_javafx.mvc.view.scene_items;
 
 import com.game.multy_player_javafx.mvc.model.passive.Point;
+import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -56,7 +57,8 @@ public class ImageMap extends Pane{
         ScriptAnalyser struct = new ScriptAnalyser(metadata);
         ImageView item = new ImageView(typeInfo.get(struct.getName()).path);
         item.setViewport(new Rectangle2D(X(struct), Y(struct), width(struct), height(struct)));
-
+        item.setScaleX(3);
+        item.setScaleY(3);
         item.setX(coordinates.X);
         item.setY(coordinates.Y);
 
@@ -79,6 +81,13 @@ public class ImageMap extends Pane{
         return typeInfo.get(struct.getName()).height;
     }
     public void setAll(){
-        getChildren().setAll(imageList);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                getChildren().clear();
+                getChildren().setAll(imageList);
+                imageList.clear();
+            }
+        });
     }
 }

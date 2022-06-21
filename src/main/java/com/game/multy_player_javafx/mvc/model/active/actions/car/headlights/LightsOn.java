@@ -27,4 +27,14 @@ public class LightsOn  implements Action {
     public Action clone() {
         return new LightsOff();
     }
+
+    @Override
+    public boolean equals(Action other) {
+        return other != null && other.getClass() == LightsOn.class;
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
 }

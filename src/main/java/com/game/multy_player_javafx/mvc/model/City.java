@@ -8,7 +8,6 @@ import com.game.multy_player_javafx.mvc.model.networking.Clients;
 import com.game.multy_player_javafx.mvc.model.passive.PassiveStatus;
 import com.game.multy_player_javafx.mvc.model.passive.Point;
 
-import java.sql.Struct;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,7 +41,7 @@ public class City {
         if(!toDoList.isEmpty()) {
             log.info("---");
             clients.setClientsList(controller.getSockets());
-// in prev version model cleaner was there
+
             for (ToDo toDo : toDoList)
                 setUniqueToDo(toDo);
         }
@@ -50,6 +49,7 @@ public class City {
 
     private void setUniqueToDo(ToDo toDo){
         if(!models.containsKey(toDo.who())) {
+            log.info(String.valueOf(models.size()));
             models.put(toDo.who(), new ActiveModel(toDo.who()));
         }
 
@@ -79,8 +79,9 @@ public class City {
             setToDo();
             RUN = refresh();
             RUN = sendLetter();
+
             try {
-                TimeUnit.SECONDS.sleep(1);
+                TimeUnit.MILLISECONDS.sleep(80);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

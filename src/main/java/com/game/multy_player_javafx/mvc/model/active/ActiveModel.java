@@ -12,6 +12,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.Random;
 import java.util.logging.Logger;
 
 public class ActiveModel {
@@ -27,9 +28,8 @@ public class ActiveModel {
     private HashMap<String, ArrayList<Point>> letter_to_server;
 
     public ActiveModel(Actor actor){
-        // а вообще нужно сделать нормальный рандомайзер координаты
-        coordinate = new Point(0,0);
-        modelName = actor.showName();
+        coordinate = new Point(600,400);
+        modelName = actor.getName();
         setDefaultStatus(actor.getSex());
     }
 
@@ -79,12 +79,16 @@ public class ActiveModel {
     public void setToDo(Task task, HashMap<Point, PassiveStatus> passive_models){
         log.info("todo setting");
         this.passive_models = passive_models;
+        Action new_action = null;
 
         if(status[0].actionList.containsKey(task.getTaskName()))
-            action = status[0].actionList.get(task.getTaskName()).clone();
+            new_action = status[0].actionList.get(task.getTaskName()).clone();
         else if(foundAtProperties(task.getTaskName()))
-            action = status[0].actionList.get(task.getTaskName()).clone();
+            new_action = status[0].actionList.get(task.getTaskName()).clone();
         else log.info("TODO not found in props");
+
+        if(action == null || !action.equals(new_action) || action.isFinished())
+            action = new_action;
     }
 
     public boolean refresh(HashMap<String, ArrayList<Point>> letter_to_server){

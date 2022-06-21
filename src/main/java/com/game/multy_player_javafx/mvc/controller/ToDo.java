@@ -12,7 +12,7 @@ public class ToDo {
     boolean actorSex;
 
     public ToDo(String actorInfo, String commandInfo) throws BadCommand {
-        Boolean actorSex = false;
+        actorSex = false;
 
         extractInfo(actorInfo);
 

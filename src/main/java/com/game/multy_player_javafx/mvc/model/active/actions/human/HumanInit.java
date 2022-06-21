@@ -7,15 +7,11 @@ import com.game.multy_player_javafx.mvc.model.passive.Point;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 
 public class HumanInit implements Action {
 
     @Override
     public boolean make(String name, Point coordinate, ActiveStatus[] status, HashMap<Point, PassiveStatus> passive_models, HashMap<String, ArrayList<Point>> letter_to_server) {
-        coordinate.X = 0;
-        coordinate.Y = 0;
-
         return false;
     }
 
@@ -27,5 +23,15 @@ public class HumanInit implements Action {
     @Override
     public Action clone() {
         return null;
+    }
+
+    @Override
+    public boolean equals(Action other) {
+        return other != null && other.getClass() == HumanInit.class;
+    }
+
+    @Override
+    public boolean isFinished() {
+        return true;
     }
 }

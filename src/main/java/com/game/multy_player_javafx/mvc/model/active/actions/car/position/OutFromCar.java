@@ -1,6 +1,7 @@
 package com.game.multy_player_javafx.mvc.model.active.actions.car.position;
 
 import com.game.multy_player_javafx.mvc.model.active.ActiveStatus;
+import com.game.multy_player_javafx.mvc.model.active.actions.car.headlights.LightsOff;
 import com.game.multy_player_javafx.mvc.model.passive.PassiveStatus;
 import com.game.multy_player_javafx.mvc.model.active.actions.Action;
 import com.game.multy_player_javafx.mvc.model.passive.Point;
@@ -31,5 +32,15 @@ public class OutFromCar implements Action {
     @Override
     public Action clone() {
         return new OutFromCar();
+    }
+
+    @Override
+    public boolean equals(Action other) {
+        return other != null && other.getClass() == OutFromCar.class;
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
     }
 }

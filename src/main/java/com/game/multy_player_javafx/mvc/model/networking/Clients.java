@@ -3,10 +3,7 @@ package com.game.multy_player_javafx.mvc.model.networking;
 import com.game.multy_player_javafx.mvc.model.passive.Point;
 
 import java.io.*;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.Socket;
-import java.net.SocketException;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -36,13 +33,18 @@ public class Clients{
             packet.setPort(port);
 
             for (Socket socket : clientsList) {
-                if (!previosConnections.containsKey(socket)) {
-                    final DatagramSocket datagramSocket = new DatagramSocket(port, socket.getInetAddress());
-                    previosConnections.put(socket, datagramSocket);
-                }
+                synchronized (socket){
+                    if (!previosConnections.containsKey(socket)) {
+                        DatagramSocket datagramSocket = new DatagramSocket();
+                        datagramSocket.connect(socket.getInetAddress(), port);
 
-                packet.setAddress(socket.getInetAddress());
-                previosConnections.get(socket).send(packet);
+                        if (datagramSocket.isBound())
+                            previosConnections.put(socket, datagramSocket);
+                    }
+
+                    packet.setAddress(socket.getInetAddress());
+                    previosConnections.get(socket).send(packet);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

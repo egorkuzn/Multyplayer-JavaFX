@@ -8,55 +8,67 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Logger;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class LetterReceiver extends Thread{
-    Logger log = Logger.getLogger("");
     DatagramSocket clientSocket;
     Boolean RUN = true;
-    String path = "localhost";
     final int port = 9001;
     Letter letter;
-    ObjectInputStream reader;
     DatagramPacket packet;
-    boolean isNormal = true;
+    AtomicBoolean isNormal = new AtomicBoolean(true);
     byte[] bytes = new byte[1024];
 
     @Override
     public void run() {
         try {
-            clientSocket = new DatagramSocket(port);
-            packet = new DatagramPacket(bytes, bytes.length);
-            clientSocket.receive(packet);
-            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(packet.getData());
-            reader = new ObjectInputStream(byteArrayInputStream);
-            log.info("Done!");
-
             while (RUN){
-                Object object = reader.readObject();
+                clientSocket = new DatagramSocket(port);
+                packet = new DatagramPacket(bytes, bytes.length);
+                clientSocket.receive(packet);
+                ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(packet.getData());
+                clientSocket.close();
+                Object object = new ObjectInputStream(byteArrayInputStream).readObject();
+                byteArrayInputStream.close();
 
-                if(object != null && object.getClass() == Letter.class){
+                if(object != null && object.getClass() == Letter.class) {
                     letter = (Letter) object;
+                    System.out.println("Caught!!!");
+                    System.out.flush();
                 }
             }
-        } catch (IOException | ClassNotFoundException e) {
-            isNormal = false;
+        } catch (IOException e) {
+            System.out.println("IO");
+            System.out.flush();
+            e.printStackTrace();
+            isNormal.set(false);
+        } catch (ClassNotFoundException e) {
+            System.out.println("CLASS");
+            System.out.flush();
+
+            isNormal.set(false);
         }
     }
 
     public HashMap<String, ArrayList<Point>> getMap(){
-        HashMap<String, ArrayList<Point>> map = letter.getData_keeper();
-        letter = null;
+        HashMap<String, ArrayList<Point>> map;
+
+        synchronized (this) {
+            map = letter.getData_keeper();
+            letter = null;
+        }
+
         return map;
     }
 
     public boolean itWorks(){
-        return isNormal;
+        return isNormal.get();
     }
     public boolean newLetter(){
-        return letter != null;
+        synchronized (this) {
+            return letter != null;
+        }
     }
 }

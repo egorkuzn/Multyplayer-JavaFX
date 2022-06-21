@@ -26,7 +26,6 @@ public class CityController {
     @FXML
     void initialize(){
         getKeyMap();
-        Sprites sprites = new Sprites(surface);
 
         image.setOnMouseEntered(mouseEvent -> image.getScene().setOnKeyTyped(keyEvent -> {
             if(notFirstTime)
@@ -44,6 +43,7 @@ public class CityController {
 
         try {
             properties.load(inputStream);
+
             for(Map.Entry<?, ?> elem : properties.entrySet())
                 commandByKey.put((String) elem.getKey(), (String) elem.getValue());
         } catch (IOException e) {
@@ -54,6 +54,8 @@ public class CityController {
     void connectionLose(){
         LoadController.isClickable = true;
         LoadController.status = "Connection with server is lost.";
+        ClientController clientController = new ClientController();
+        clientController.start();
         javaFxToolkit.setStage(JavaFxApplication.stage, "LOADING_STAGE");
     }
 
@@ -71,8 +73,12 @@ public class CityController {
     }
 
     void userInit(){
+        Sprites sprites = new Sprites(surface);
+        sprites.start();
+
         String inputedName = "Valentine"; // TODO: make special window for init data input
-        String sex = "GIRL";
+        String sex = "BOY";
+
         synchronized (ClientController.clientSocket) {
             ClientController.sendCommandToServer("THREAD_" + inputedName + " " + sex);
             ClientController.sendCommandToServer("INIT");

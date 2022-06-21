@@ -3,9 +3,7 @@ package com.game.multy_player_javafx.mvc.controller;
 import com.game.multy_player_javafx.mvc.exceptions.BadCommand;
 
 import java.io.*;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
@@ -78,7 +76,7 @@ public class ClientsRunner extends Thread{
             for (String message : message_keeper) {
                 try {
                     toDoList.add(new ToDo(thread_information, message));
-                    log.info(toDoList.get(0).who().showName());
+                    log.info(toDoList.get(0).who().getName());
                 } catch (BadCommand e) {
                     e.printStackTrace();
                 }

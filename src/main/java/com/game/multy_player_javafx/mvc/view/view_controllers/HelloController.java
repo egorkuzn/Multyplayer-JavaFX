@@ -27,7 +27,7 @@ public class HelloController {
             button.setOnAction(actionEvent -> {
                 javaFxTool.setStage(JavaFxApplication.stage, "LOADING_STAGE");
 
-                if (clientController.status)
+                if (clientController.getStatus())
                     continueGame();
                 else
                     showConnectionException();
