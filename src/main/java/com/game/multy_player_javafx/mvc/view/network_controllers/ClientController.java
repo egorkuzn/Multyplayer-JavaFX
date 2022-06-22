@@ -2,20 +2,25 @@ package com.game.multy_player_javafx.mvc.view.network_controllers;
 
 import java.io.*;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ClientController extends Thread{
-    final String path = "localhost";
+    final String path = "tomashorak.ddns.net";
     final int port= 9000;
     static BufferedWriter out;
     public static Socket clientSocket;
     static AtomicBoolean status = new AtomicBoolean(false);
+    public static InetAddress inetAddress;
 
     public boolean playerConnetionInit(){
         if(!status.get()) {
             try {
                 clientSocket = new Socket(path, port);
+                synchronized (this) {
+                    ClientController.inetAddress = clientSocket.getInetAddress();
+                }
                 out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
 
                 if (!sendCommandToServer("*Hello!")) {

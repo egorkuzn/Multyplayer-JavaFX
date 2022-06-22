@@ -6,8 +6,7 @@ import com.game.multy_player_javafx.mvc.model.passive.Point;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -16,6 +15,7 @@ public class LetterReceiver extends Thread{
     DatagramSocket clientSocket;
     Boolean RUN = true;
     final int port = 9001;
+    final String path = "tomashorak.ddns.net";
     Letter letter;
     DatagramPacket packet;
     AtomicBoolean isNormal = new AtomicBoolean(true);
@@ -26,7 +26,6 @@ public class LetterReceiver extends Thread{
         try {
             while (RUN){
                 clientSocket = new DatagramSocket(port);
-                packet = new DatagramPacket(bytes, bytes.length);
                 clientSocket.receive(packet);
                 ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(packet.getData());
                 clientSocket.close();
