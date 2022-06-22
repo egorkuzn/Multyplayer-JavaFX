@@ -35,12 +35,15 @@ public class ClientsRunner extends Thread{
     @Override
     public void run() {
         String message =  "";
+
         try {
             while (RUN){
                 message = reader.readLine();
                 if(message.equals("stop")) {
                     log.info("stop");
                     break;
+                } else if (message.equals("ask")) {
+                    answer();
                 } else if(message.startsWith("THREAD_")) {
                     synchronized (this) {
                         thread_information = message.substring(7);
@@ -60,6 +63,7 @@ public class ClientsRunner extends Thread{
         } finally {
             try {
                 log.info("Socket closed");
+                ServerController.removeSocket(socket, this);
 
                 if(!socket.isClosed())
                     socket.close();
@@ -92,5 +96,9 @@ public class ClientsRunner extends Thread{
         synchronized (this) {
             return !message_keeper.isEmpty();
         }
+    }
+
+    void answer(){
+
     }
 }

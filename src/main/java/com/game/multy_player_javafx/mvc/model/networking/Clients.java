@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 public class Clients{
     Logger log = Logger.getLogger("");
     LinkedList<Socket> clientsList = new LinkedList<>();
-    HashMap<Socket, DatagramSocket> previosConnections = new HashMap<>();
     final int port = 9001;
     public void setClientsList(LinkedList<Socket> clientsList) {
         this.clientsList = clientsList;
@@ -29,21 +28,14 @@ public class Clients{
             log.info("Send out...");
             objectOutputStream.writeObject(letter);
             final byte[] data = byteArrayOutputStream.toByteArray();
-            DatagramPacket packet = new DatagramPacket(data, data.length);
-            packet.setPort(port);
 
             for (Socket socket : clientsList) {
-                synchronized (socket){
-                    if (!previosConnections.containsKey(socket)) {
-                        DatagramSocket datagramSocket = new DatagramSocket();
-                        datagramSocket.connect(socket.getInetAddress(), port);
-
-                        if (datagramSocket.isBound())
-                            previosConnections.put(socket, datagramSocket);
-                    }
-
-                    packet.setAddress(socket.getInetAddress());
-                    previosConnections.get(socket).send(packet);
+                synchronized (socket.getInetAddress()){
+                    DatagramSocket datagramSocket = new DatagramSocket();
+                    DatagramPacket packet = new DatagramPacket(data, data.length, socket.getInetAddress(), port);
+                    datagramSocket.send(packet);
+                    datagramSocket.disconnect();
+                    datagramSocket.close();
                 }
             }
         } catch (IOException e) {

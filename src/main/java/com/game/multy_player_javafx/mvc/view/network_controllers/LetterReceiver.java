@@ -26,6 +26,7 @@ public class LetterReceiver extends Thread{
         try {
             while (RUN){
                 clientSocket = new DatagramSocket(port);
+                packet = new DatagramPacket(bytes, 1024);
                 clientSocket.receive(packet);
                 ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(packet.getData());
                 clientSocket.close();

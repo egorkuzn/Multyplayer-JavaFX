@@ -7,20 +7,16 @@ import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ClientController extends Thread{
-    final String path = "tomashorak.ddns.net";
+    final String path = "192.168.100.233";
     final int port= 9000;
     static BufferedWriter out;
     public static Socket clientSocket;
     static AtomicBoolean status = new AtomicBoolean(false);
-    public static InetAddress inetAddress;
 
     public boolean playerConnetionInit(){
         if(!status.get()) {
             try {
                 clientSocket = new Socket(path, port);
-                synchronized (this) {
-                    ClientController.inetAddress = clientSocket.getInetAddress();
-                }
                 out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
 
                 if (!sendCommandToServer("*Hello!")) {

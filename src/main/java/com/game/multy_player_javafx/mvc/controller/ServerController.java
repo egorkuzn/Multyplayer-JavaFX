@@ -7,8 +7,10 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Properties;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 
 public class ServerController extends Thread{
@@ -16,8 +18,9 @@ public class ServerController extends Thread{
         public Boolean RUN;
         final int port = 9000;
         ServerSocket server;
-        public LinkedList<Socket> socketsList = new LinkedList<>();
-        ArrayList<ClientsRunner> serverList = new ArrayList<>();
+        public static HashSet<String> usersHistory = new HashSet<>();
+        static LinkedList<Socket> socketsList = new LinkedList<>();
+        static ArrayList<ClientsRunner> serverList = new ArrayList<>();
         public ServerController(){
                 RUN = true;
                 initSizeLimit();
@@ -96,5 +99,13 @@ public class ServerController extends Thread{
                 synchronized (this) {
                         return socketsList;
                 }
+        }
+
+        public static void removeSocket(Socket socket, ClientsRunner clientsRunner){
+                ReentrantLock lock = new ReentrantLock();
+                lock.lock();
+                socketsList.remove(socket);
+                serverList.remove(clientsRunner);
+                lock.unlock();
         }
 }

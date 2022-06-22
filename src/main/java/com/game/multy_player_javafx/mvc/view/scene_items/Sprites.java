@@ -8,11 +8,14 @@ import javafx.scene.layout.BorderPane;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class Sprites extends Thread {
     LetterReceiver letterReceiver = new LetterReceiver();
     ImageMap imageMap = new ImageMap();
     BorderPane borderPane;
+
+    HeroChoose choosePanel = new HeroChoose(imageMap);
     public Sprites(BorderPane field){
         borderPane = field;
         field.getChildren().add(imageMap);
@@ -21,6 +24,15 @@ public class Sprites extends Thread {
     @Override
     public void run() {
         heroChoose();
+
+        while (!choosePanel.getChooseStatus()) {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         letterReceiver.start();
 
         while (letterReceiver.itWorks()) {
@@ -51,6 +63,6 @@ public class Sprites extends Thread {
     }
 
     void heroChoose(){
-        Platform.runLater(new HeroChoose(imageMap));
+        Platform.runLater(choosePanel);
     }
 }

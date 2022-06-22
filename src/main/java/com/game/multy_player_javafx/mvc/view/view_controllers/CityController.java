@@ -63,6 +63,7 @@ public class CityController {
 
     void usualBlock(KeyEvent keyEvent){
         if(keyEvent.getCharacter().equals("q") || keyEvent.getCharacter().equals("Q")) {
+            ClientController.sendCommandToServer("stop");
             Platform.exit();
             System.exit(0);
         }

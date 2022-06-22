@@ -7,21 +7,22 @@ import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.util.Duration;
+
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 
 public class HeroChoose implements Runnable{
     ImageMap imageMap;
     //for 1960 * 1080 display
     public static final int width = 1960;
     public static final int height = 1080;
+    AtomicBoolean chooseMade = new AtomicBoolean(false);
+
+    String inputedName = "Valentine";
 
     HeroChoose(ImageMap imageMap){
         this.imageMap = imageMap;
@@ -34,25 +35,19 @@ public class HeroChoose implements Runnable{
 
 
         he.setOnMouseClicked(mouseEvent -> {
-            String inputedName = "Mickael"; // TODO: make special window for init data input
             String sex = "BOY";
-
-            synchronized (ClientController.clientSocket) {
-                ClientController.sendCommandToServer("THREAD_" + inputedName + " " + sex);
-                ClientController.sendCommandToServer("INIT");
-            }
+            ClientController.sendCommandToServer("THREAD_" + inputedName + " " + sex);
+            ClientController.sendCommandToServer("INIT");
+            chooseMade.set(true);
         });
 
         she.setTranslateX((int)(width / 2));
 
         she.setOnMouseClicked(mouseEvent -> {
-            String inputedName = "Valentine"; // TODO: make special window for init data input
             String sex = "GIRL";
-
-            synchronized (ClientController.clientSocket) {
-                ClientController.sendCommandToServer("THREAD_" + inputedName + " " + sex);
-                ClientController.sendCommandToServer("INIT");
-            }
+            ClientController.sendCommandToServer("THREAD_" + inputedName + " " + sex);
+            ClientController.sendCommandToServer("INIT");
+            chooseMade.set(true);
         });
 
         imageMap.getChildren().setAll(he, she);
@@ -61,7 +56,7 @@ public class HeroChoose implements Runnable{
             imageMap.getChildren().clear();
         });
     }
-    private static class MenuItem extends StackPane {
+    private class MenuItem extends StackPane {
         public  MenuItem(String path){
             ImageView bg = new ImageView(new Image(path, (int)(width / 2), height, false, true));
             bg.setViewport(new Rectangle2D(0, 0, (int)(width / 2), height));
@@ -88,5 +83,9 @@ public class HeroChoose implements Runnable{
                 ft.setOpacity(0.7);
             });
         }
+    }
+
+    boolean getChooseStatus(){
+        return chooseMade.get();
     }
 }
