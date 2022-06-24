@@ -15,7 +15,6 @@ public class LetterReceiver extends Thread{
     DatagramSocket clientSocket;
     Boolean RUN = true;
     final int port = 9001;
-    final String path = "tomashorak.ddns.net";
     Letter letter;
     DatagramPacket packet;
     AtomicBoolean isNormal = new AtomicBoolean(true);

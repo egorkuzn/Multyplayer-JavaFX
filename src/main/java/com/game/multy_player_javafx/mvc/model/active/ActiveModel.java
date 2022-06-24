@@ -75,7 +75,10 @@ public class ActiveModel {
         }
     }
 
-    public void setToDo(Task task, HashMap<Point, PassiveStatus> passive_models){
+    public boolean setToDo(Task task, HashMap<Point, PassiveStatus> passive_models){
+        if(task.getTaskName().equals("DELETE"))
+            return false;
+
         log.info("todo setting");
         this.passive_models = passive_models;
         Action new_action = null;
@@ -88,6 +91,8 @@ public class ActiveModel {
 
         if(action == null || !action.equals(new_action) || action.isFinished())
             action = new_action;
+
+        return true;
     }
 
     public boolean refresh(HashMap<String, ArrayList<Point>> letter_to_server){

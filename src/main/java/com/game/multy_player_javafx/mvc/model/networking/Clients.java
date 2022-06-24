@@ -31,6 +31,7 @@ public class Clients{
 
             for (Socket socket : clientsList) {
                 synchronized (socket.getInetAddress()){
+                    // TODO : try to use datagram channels from https://flylib.com/books/en/1.134.1/datagram_channels.html
                     DatagramSocket datagramSocket = new DatagramSocket();
                     DatagramPacket packet = new DatagramPacket(data, data.length, socket.getInetAddress(), port);
                     datagramSocket.send(packet);

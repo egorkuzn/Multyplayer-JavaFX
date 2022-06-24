@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ClientController extends Thread{
-    final String path = "192.168.100.233";
+    final String path = "109.174.34.34";
     final int port= 9000;
     static BufferedWriter out;
     public static Socket clientSocket;

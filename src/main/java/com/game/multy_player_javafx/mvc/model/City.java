@@ -53,7 +53,8 @@ public class City {
             models.put(toDo.who(), new ActiveModel(toDo.who()));
         }
 
-        models.get(toDo.who()).setToDo(toDo.what(), passive_models);
+        if(!models.get(toDo.who()).setToDo(toDo.what(), passive_models))
+            models.remove(toDo.who());
     }
 
     private boolean refresh(){

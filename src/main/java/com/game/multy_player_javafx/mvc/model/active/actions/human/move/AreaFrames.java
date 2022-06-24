@@ -10,6 +10,21 @@ public class AreaFrames {
 
             if(Y < 500)
                 return false;
+
+            if(Y < 0.6 * (X - 270))
+                return false;
+
+            if(X > 1700)
+                return false;
+
+            if(Y < -0.6 * (X - 570) + 500)
+                return false;
+
+            if(X < 160)
+                return false;
+
+            if(Y > 920)
+                return false;
         }
 
         return true;

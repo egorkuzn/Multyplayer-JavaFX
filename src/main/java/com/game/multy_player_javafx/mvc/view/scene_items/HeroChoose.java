@@ -13,7 +13,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 
 public class HeroChoose implements Runnable{
     ImageMap imageMap;
@@ -22,7 +21,7 @@ public class HeroChoose implements Runnable{
     public static final int height = 1080;
     AtomicBoolean chooseMade = new AtomicBoolean(false);
 
-    String inputedName = "Valentine";
+    String inputName = "Valentine";
 
     HeroChoose(ImageMap imageMap){
         this.imageMap = imageMap;
@@ -36,7 +35,7 @@ public class HeroChoose implements Runnable{
 
         he.setOnMouseClicked(mouseEvent -> {
             String sex = "BOY";
-            ClientController.sendCommandToServer("THREAD_" + inputedName + " " + sex);
+            ClientController.sendCommandToServer("THREAD_" + inputName + " " + sex);
             ClientController.sendCommandToServer("INIT");
             chooseMade.set(true);
         });
@@ -45,7 +44,7 @@ public class HeroChoose implements Runnable{
 
         she.setOnMouseClicked(mouseEvent -> {
             String sex = "GIRL";
-            ClientController.sendCommandToServer("THREAD_" + inputedName + " " + sex);
+            ClientController.sendCommandToServer("THREAD_" + inputName + " " + sex);
             ClientController.sendCommandToServer("INIT");
             chooseMade.set(true);
         });
@@ -87,5 +86,9 @@ public class HeroChoose implements Runnable{
 
     boolean getChooseStatus(){
         return chooseMade.get();
+    }
+
+    public void setName(String inputName){
+        this.inputName = inputName;
     }
 }

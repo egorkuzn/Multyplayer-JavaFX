@@ -16,6 +16,7 @@ public class Sprites extends Thread {
     BorderPane borderPane;
 
     HeroChoose choosePanel = new HeroChoose(imageMap);
+    NameChoose textLine = new NameChoose(imageMap);
     public Sprites(BorderPane field){
         borderPane = field;
         field.getChildren().add(imageMap);
@@ -23,7 +24,17 @@ public class Sprites extends Thread {
 
     @Override
     public void run() {
-        heroChoose();
+        nameChoose();
+
+        while (!textLine.getChooseStatus()) {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        heroChoose(textLine.name());
 
         while (!choosePanel.getChooseStatus()) {
             try {
@@ -50,19 +61,21 @@ public class Sprites extends Thread {
     void setMap(HashMap<String, ArrayList<Point>> map){
         for (Map.Entry<String, ArrayList<Point>> group : map.entrySet())
             for (Point coordinate : group.getValue()) {
-                System.out.println("adding");
-                System.out.flush();
 
                 imageMap.add(group.getKey(), coordinate);
-
-                System.out.println("added");
+                System.out.println(coordinate.X + ";" + coordinate.Y);
                 System.out.flush();
             }
 
         imageMap.setAll();
     }
 
-    void heroChoose(){
+    void heroChoose(String name){
+        choosePanel.setName(name);
         Platform.runLater(choosePanel);
+    }
+
+    void nameChoose(){
+        Platform.runLater(textLine);
     }
 }

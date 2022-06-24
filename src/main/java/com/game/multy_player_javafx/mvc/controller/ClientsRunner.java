@@ -41,9 +41,8 @@ public class ClientsRunner extends Thread{
                 message = reader.readLine();
                 if(message.equals("stop")) {
                     log.info("stop");
+                    ServerController.deleteOnDispaly(thread_information);
                     break;
-                } else if (message.equals("ask")) {
-                    answer();
                 } else if(message.startsWith("THREAD_")) {
                     synchronized (this) {
                         thread_information = message.substring(7);
@@ -63,6 +62,7 @@ public class ClientsRunner extends Thread{
         } finally {
             try {
                 log.info("Socket closed");
+
                 ServerController.removeSocket(socket, this);
 
                 if(!socket.isClosed())
@@ -96,9 +96,5 @@ public class ClientsRunner extends Thread{
         synchronized (this) {
             return !message_keeper.isEmpty();
         }
-    }
-
-    void answer(){
-
     }
 }
