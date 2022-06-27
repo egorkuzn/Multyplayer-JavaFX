@@ -4,6 +4,8 @@ import com.game.multy_player_javafx.mvc.model.passive.Point;
 
 import java.io.*;
 import java.net.*;
+import java.nio.ByteBuffer;
+import java.nio.channels.DatagramChannel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -13,7 +15,6 @@ import java.util.logging.Logger;
 public class Clients{
     Logger log = Logger.getLogger("");
     LinkedList<Socket> clientsList = new LinkedList<>();
-    final int port = 9001;
     public void setClientsList(LinkedList<Socket> clientsList) {
         this.clientsList = clientsList;
     }
@@ -28,17 +29,17 @@ public class Clients{
             log.info("Send out...");
             objectOutputStream.writeObject(letter);
             final byte[] data = byteArrayOutputStream.toByteArray();
+            DatagramChannel channel = DatagramChannel.open();
 
             for (Socket socket : clientsList) {
                 synchronized (socket.getInetAddress()){
                     // TODO : try to use datagram channels from https://flylib.com/books/en/1.134.1/datagram_channels.html
-                    DatagramSocket datagramSocket = new DatagramSocket();
-                    DatagramPacket packet = new DatagramPacket(data, data.length, socket.getInetAddress(), port);
-                    datagramSocket.send(packet);
-                    datagramSocket.disconnect();
-                    datagramSocket.close();
+                    SocketAddress client = socket.getLocalSocketAddress();
+                    channel.send(ByteBuffer.wrap(data), client);
                 }
             }
+
+            channel.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,19 +1,17 @@
 package com.game.multy_player_javafx.mvc.view.network_controllers;
 
 import java.io.*;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ClientController extends Thread{
-    final String path = "192.168.100.233";
+    final String path = "tomashorak.ddns.net";
     final int port= 9000;
     static BufferedWriter out;
     public static Socket clientSocket;
     static AtomicBoolean status = new AtomicBoolean(false);
 
-    public boolean playerConnetionInit(){
+    public boolean playerConnectionInit(){
         if(!status.get()) {
             try {
                 clientSocket = new Socket(path, port);
@@ -36,7 +34,7 @@ public class ClientController extends Thread{
 
     public void run() {
         while (!status.get())
-            status.set(playerConnetionInit());
+            status.set(playerConnectionInit());
     }
 
     public static boolean sendCommandToServer(String message){

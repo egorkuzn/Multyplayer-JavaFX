@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class LetterReceiver extends Thread{
     DatagramSocket clientSocket;
     Boolean RUN = true;
-    final int port = 9001;
+    final int port = 9000;
     Letter letter;
     DatagramPacket packet;
     AtomicBoolean isNormal = new AtomicBoolean(true);
