@@ -7,10 +7,9 @@ import com.game.multy_player_javafx.mvc.model.passive.Point;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Properties;
+import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 
@@ -18,18 +17,28 @@ public class ServerController extends Thread{
         Logger log = Logger.getLogger("");
         public Boolean RUN;
         final int port = 9000;
+        static final int clientsLimit = 10;
+        static AtomicInteger countOfClients = new AtomicInteger(0);
         ServerSocket server;
         public static HashSet<String> usersHistory = new HashSet<>();
         static LinkedList<Socket> socketsList = new LinkedList<>();
         static ArrayList<ClientsRunner> serverList = new ArrayList<>();
         static ArrayList<ToDo> deleteList = new ArrayList<>();
         public ArrayList<ToDo> toDoList = new ArrayList<>();
+        static ArrayList<Integer> freeClientThread = new ArrayList<>();
+        ArrayList<ClientsRunner> clientsPool = new ArrayList<>();
 
 
 
     public ServerController(){
                 RUN = true;
                 initSizeLimit();
+
+                for(int i = 0; i < clientsLimit; i++) {
+                    clientsPool.add(new ClientsRunner(i));
+                    freeClientThread.add(i);
+                }
+
                 start();
         }
 
@@ -74,13 +83,17 @@ public class ServerController extends Thread{
                             server = new ServerSocket(port, 10); // вот ты его тут открыл, а про закрыть не забудь!!!
 
                             while (RUN) {
+                                if(!freeClientThread.isEmpty()) {
                                     Socket socket = server.accept();
 
                                     synchronized (this) {
-                                            socketsList.add(socket);
-                                            serverList.add(new ClientsRunner(socket, RUN));
-                                            log.info("Length: " + serverList.size());
+                                        socketsList.add(socket);
+                                        serverList.add(clientsPool.get(freeClientThread.get(0)));
+                                        serverList.get(serverList.size() - 1).startNewClient(socket, RUN);
+                                        freeClientThread.remove(0);
+                                        log.info("Length: " + serverList.size());
                                     }
+                                }
                             }
 
                     } catch (IOException e) {
@@ -122,6 +135,9 @@ public class ServerController extends Thread{
                     lock.lock();
                     socketsList.remove(socket);
                     serverList.remove(clientsRunner);
+                    freeClientThread.add(clientsRunner.getIndex());
                     lock.unlock();
+
+                    countOfClients.decrementAndGet();
             }
     }

@@ -17,7 +17,12 @@ public class ClientsRunner extends Thread{
     ArrayList<String> message_keeper = new ArrayList<>();
     ArrayList<ToDo> toDoList = new ArrayList<>();
     BufferedReader reader;
-    public ClientsRunner(Socket socket, Boolean RUN){
+    final int index;
+    public ClientsRunner(int index){
+        this.index = index;
+    }
+
+    public void startNewClient(Socket socket, Boolean RUN){
         this.RUN = RUN;
         this.socket = socket;
         log.info("Thread started");
@@ -96,5 +101,9 @@ public class ClientsRunner extends Thread{
         synchronized (this) {
             return !message_keeper.isEmpty();
         }
+    }
+
+    int getIndex(){
+        return index;
     }
 }
