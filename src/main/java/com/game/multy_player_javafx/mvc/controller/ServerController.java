@@ -15,7 +15,7 @@ public class ServerController extends Thread{
         Logger log = Logger.getLogger("");
         public Boolean RUN;
         final int port = 9000;
-        static final int clientsLimit = 2;
+        static final int clientsLimit = 10;
         static AtomicInteger countOfClients = new AtomicInteger(0);
         ServerSocket server;
         static LinkedList<Socket> socketsList = new LinkedList<>();

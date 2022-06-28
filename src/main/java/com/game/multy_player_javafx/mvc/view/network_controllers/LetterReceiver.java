@@ -6,6 +6,7 @@ import com.game.multy_player_javafx.mvc.model.passive.Point;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,14 +24,18 @@ public class LetterReceiver extends Thread{
     @Override
     public void run() {
         try {
+            ObjectInputStream objectInputStream = new ObjectInputStream(ClientController.clientSocket.getInputStream());
+
             while (RUN){
-                clientSocket = new DatagramSocket(port);
-                packet = new DatagramPacket(bytes, 1024);
-                clientSocket.receive(packet);
-                ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(packet.getData());
-                clientSocket.close();
-                Object object = new ObjectInputStream(byteArrayInputStream).readObject();
-                byteArrayInputStream.close();
+//                clientSocket = new DatagramSocket(port);
+//                packet = new DatagramPacket(bytes, 1024);
+//                clientSocket.receive(packet);
+//                ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(packet.getData());
+//                clientSocket.close();
+//                Object object = new ObjectInputStream(byteArrayInputStream).readObject();
+//                byteArrayInputStream.close();
+
+                Object object = objectInputStream.readObject();
 
                 if(object != null && object.getClass() == Letter.class) {
                     letter = (Letter) object;

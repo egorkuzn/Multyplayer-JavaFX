@@ -22,23 +22,26 @@ public class Clients{
 
         try {
             //I don't know what object size is. So 1024 would be perfect
-            final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(1024);
-            final ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
-            log.info("Send out...");
-            objectOutputStream.writeObject(letter);
-            final byte[] data = byteArrayOutputStream.toByteArray();
-            DatagramChannel channel = DatagramChannel.open();
+//            final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(1024);
+             ObjectOutputStream objectOutputStream;
+//            final ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+//            log.info("Send out...");
+//            objectOutputStream.writeObject(letter);
+//            final byte[] data = byteArrayOutputStream.toByteArray();
+//            DatagramChannel channel = DatagramChannel.open();
 
             List<Socket> threadSafeList = Collections.synchronizedList(clientsList);
 
             synchronized (threadSafeList) {
                 for (Socket socket : threadSafeList) {
-                    SocketAddress client = socket.getLocalSocketAddress();
-                    channel.send(ByteBuffer.wrap(data), client);
+                   objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+                   objectOutputStream.writeObject(letter);
+                   objectOutputStream.flush();
+//                    SocketAddress client = socket.getLocalSocketAddress();
+//                    channel.send(ByteBuffer.wrap(data), client);
                 }
             }
-
-            channel.close();
+//            channel.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
