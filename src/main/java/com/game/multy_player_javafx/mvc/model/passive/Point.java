@@ -4,7 +4,7 @@ import com.game.multy_player_javafx.mvc.model.active.actions.human.move.Directio
 
 import java.io.Serializable;
 
-public class Point implements Serializable, Comparable {
+public class Point implements Serializable{
     public int X = 0;
     public int Y = 0;
 
@@ -29,13 +29,5 @@ public class Point implements Serializable, Comparable {
             case LEFT -> new Point(X - step, Y);
             case RIGHT -> new Point(X + step, Y);
         };
-    }
-
-    @Override
-    public int compareTo(Object obj) {
-        if(obj != null && obj.getClass() == Point.class)
-            return Y - ((Point) obj).Y;
-
-        return -1;
     }
 }

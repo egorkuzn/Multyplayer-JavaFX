@@ -6,9 +6,7 @@ import java.io.*;
 import java.net.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.logging.Logger;
 
 //tomashorak.hopto.org/9000
@@ -31,9 +29,10 @@ public class Clients{
             final byte[] data = byteArrayOutputStream.toByteArray();
             DatagramChannel channel = DatagramChannel.open();
 
-            for (Socket socket : clientsList) {
-                synchronized (socket.getInetAddress()){
-                    // TODO : try to use datagram channels from https://flylib.com/books/en/1.134.1/datagram_channels.html
+            List<Socket> threadSafeList = Collections.synchronizedList(clientsList);
+
+            synchronized (threadSafeList) {
+                for (Socket socket : threadSafeList) {
                     SocketAddress client = socket.getLocalSocketAddress();
                     channel.send(ByteBuffer.wrap(data), client);
                 }

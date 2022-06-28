@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 
 public class ImageMap extends Pane{
@@ -93,6 +94,7 @@ public class ImageMap extends Pane{
             @Override
             public void run() {
                 getChildren().clear();
+                imageList.sort((o1, o2) -> (int)(o1.getY() - o2.getY()));
                 getChildren().setAll(imageList);
                 imageList.clear();
             }

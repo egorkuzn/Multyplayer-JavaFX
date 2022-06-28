@@ -1,7 +1,10 @@
 package com.game.multy_player_javafx.mvc.view.scene_items;
 
 import com.game.multy_player_javafx.mvc.model.passive.Point;
+import com.game.multy_player_javafx.mvc.view.JavaFxApplication;
+import com.game.multy_player_javafx.mvc.view.network_controllers.ClientController;
 import com.game.multy_player_javafx.mvc.view.network_controllers.LetterReceiver;
+import com.game.multy_player_javafx.mvc.view.view_controllers.JavaFxToolkit;
 import javafx.application.Platform;
 import javafx.scene.layout.BorderPane;
 
@@ -9,12 +12,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Sprites extends Thread {
     LetterReceiver letterReceiver = new LetterReceiver();
     ImageMap imageMap = new ImageMap();
     BorderPane borderPane;
-
+    AtomicBoolean status = new AtomicBoolean(true);
     HeroChoose choosePanel = new HeroChoose(imageMap);
     NameChoose textLine = new NameChoose(imageMap);
     public Sprites(BorderPane field){
@@ -44,6 +48,31 @@ public class Sprites extends Thread {
             }
         }
 
+        int countOfLoops = 0;
+
+        while (!ClientController.getStatus()) {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+                countOfLoops++;
+
+                if(countOfLoops == 10) {
+                    status.set(false);
+                    break;
+                }
+            } catch (InterruptedException e) {
+                status.set(false);
+                throw new RuntimeException(e);
+            }
+        }
+
+        if(status.get())
+            usualLetterReceiving();
+
+        System.out.println("finished");
+        System.out.flush();
+    }
+
+    void usualLetterReceiving(){
         letterReceiver.start();
 
         while (letterReceiver.itWorks()) {
@@ -54,6 +83,7 @@ public class Sprites extends Thread {
             }
         }
 
+        status.set(false);
         System.out.println("finished");
         System.out.flush();
     }
@@ -77,5 +107,9 @@ public class Sprites extends Thread {
 
     void nameChoose(){
         Platform.runLater(textLine);
+    }
+
+    public boolean isRunning() {
+        return status.get();
     }
 }

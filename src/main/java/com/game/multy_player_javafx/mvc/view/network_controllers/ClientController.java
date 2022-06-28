@@ -54,7 +54,7 @@ public class ClientController extends Thread{
         return true;
     }
 
-    public boolean getStatus() {
+    public static boolean getStatus() {
         return status.get();
     }
 }

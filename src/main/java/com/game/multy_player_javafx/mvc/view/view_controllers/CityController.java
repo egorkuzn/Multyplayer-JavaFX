@@ -21,6 +21,7 @@ public class CityController {
     boolean notFirstTime = false;
     HashMap<String, String> commandByKey = new HashMap<>();
     JavaFxToolkit javaFxToolkit = new JavaFxToolkit();
+    Sprites sprites;
     @FXML
     BorderPane surface = new BorderPane();
     @FXML
@@ -31,11 +32,16 @@ public class CityController {
 
         image.setOnMouseEntered(mouseEvent -> {
             if (notFirstTime)
-                image.getScene().setOnKeyTyped(this::usualBlock);
-            else
+                if(sprites.isRunning())
+                    image.getScene().setOnKeyTyped(this::usualBlock);
+                else {
+                    connectionLose();
+                    notFirstTime = false;
+                }
+            else {
                 userInit();
-
-            notFirstTime = true;
+                notFirstTime = true;
+            }
         });
     }
 
@@ -81,7 +87,7 @@ public class CityController {
     }
 
     void userInit(){
-        Sprites sprites = new Sprites(surface);
+        sprites = new Sprites(surface);
         sprites.start();
     }
 }
