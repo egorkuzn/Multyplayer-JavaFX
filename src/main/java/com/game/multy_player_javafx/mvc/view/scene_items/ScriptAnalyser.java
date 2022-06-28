@@ -5,6 +5,7 @@ public class ScriptAnalyser {
     String name;
     double x;
     double y;
+    StringBuilder textInfo = new StringBuilder();
 
     public ScriptAnalyser(String script){
         String[] array = script.split("_");
@@ -14,6 +15,13 @@ public class ScriptAnalyser {
         x = elem.getX();
         y = elem.getY();
         name = elem.name();
+
+        for(int i = 1; i < array.length; i++) {
+            if(i != 1)
+                textInfo.append("_");
+
+            textInfo.append(array[i]);
+        }
     }
 
 
@@ -27,5 +35,9 @@ public class ScriptAnalyser {
 
     public String getName(){
         return name;
+    }
+
+    public String getText(){
+        return textInfo.toString();
     }
 }

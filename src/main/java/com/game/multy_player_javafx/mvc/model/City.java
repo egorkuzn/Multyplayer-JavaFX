@@ -60,10 +60,9 @@ public class City {
     private boolean refresh(){
         letter_from_server.clear();
 
-        for(Map.Entry<Actor, ActiveModel> model : models.entrySet()) {
+        for(Map.Entry<Actor, ActiveModel> model : models.entrySet())
             if(!model.getValue().refresh(letter_from_server))
                 return false;
-        }
 
         return true;
     }

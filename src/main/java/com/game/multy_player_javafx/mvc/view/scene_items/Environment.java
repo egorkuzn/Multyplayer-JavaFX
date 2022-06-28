@@ -6,7 +6,8 @@ public enum Environment {
     BOY,
     GIRL,
     DOG,
-    CAR;
+    CAR,
+    TEXT;
 
     Item obj;
 
@@ -16,6 +17,7 @@ public enum Environment {
             case "GIRL" -> obj = new Girl(info);
             case "DOG" -> obj = new Dog(info);
             case "CAR" -> obj = new Car(info);
+            case "TEXT" -> obj = new Text();
         }
     }
 

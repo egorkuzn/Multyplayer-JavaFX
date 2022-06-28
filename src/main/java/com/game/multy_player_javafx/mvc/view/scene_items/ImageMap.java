@@ -3,8 +3,16 @@ package com.game.multy_player_javafx.mvc.view.scene_items;
 import com.game.multy_player_javafx.mvc.model.passive.Point;
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
+import javafx.scene.effect.Effect;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextBoundsType;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -12,15 +20,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 
 public class ImageMap extends Pane{
     public ImageMap(){
         if(typeInfo.isEmpty())
             getTypeInfo();
     }
-    ArrayList<ImageView> imageList = new ArrayList<>();
+    ArrayList<Node> imageList = new ArrayList<>();
+    ArrayList<Node> textList = new ArrayList<>();
     static HashMap<String, Type> typeInfo = new HashMap<String, Type>();
     public static HashMap<Environment, String> chooseHeroPath = new HashMap<>();
+
     static void getTypeInfo(){
         BufferedReader reader = null;
 
@@ -62,18 +73,55 @@ public class ImageMap extends Pane{
             }
         }
     }
-    public void add(String metadata, Point coordinates){
+
+    int sysBiasOfX(){
+        return (displayWidth() - MyImages.STREET.Width()) / 2;
+    }
+
+    int sysBiasOfY(){
+        return (displayHeight() - MyImages.STREET.Height()) / 2;
+    }
+
+    public void add(String metadata, Point coordinate){
         ScriptAnalyser struct = new ScriptAnalyser(metadata);
+
+        coordinate = Point(coordinate.X + sysBiasOfX(), coordinate.Y + sysBiasOfY());
+
+        switch (struct.getName()) {
+            case "TEXT" -> textAdder(struct, coordinate);
+            default -> imageAdder(struct, coordinate);
+        }
+    }
+
+    void textAdder(ScriptAnalyser struct, Point coordinate){
+        int dy = 80;
+        int shadowX = 2;
+        int shadowY = 2;
+
+        textList.add(getText(struct, new Point(coordinate.X - shadowX, coordinate.Y + shadowY - dy), Color.YELLOW));
+        textList.add(getText(struct, new Point(coordinate.X, coordinate.Y - dy), Color.ORANGE));
+    }
+
+    Text getText(ScriptAnalyser struct, Point coordinate, Color color){
+        Text text = new Text(struct.getText());
+        text.setFont(Font.font("MV Boli", FontWeight.SEMI_BOLD, 20));
+        text.setX(coordinate.X);
+        text.setY(coordinate.Y);
+        text.setFill(color);
+
+        return text;
+    }
+
+    void imageAdder(ScriptAnalyser struct, Point coordinate){
         ImageView item = new ImageView(typeInfo.get(struct.getName()).path);
         item.setViewport(new Rectangle2D(X(struct), Y(struct), width(struct), height(struct)));
         item.setScaleX(3);
         item.setScaleY(3);
-        item.setX(coordinates.X);
-        item.setY(coordinates.Y);
+        item.setX(coordinate.X);
+        item.setY(coordinate.Y);
 
         imageList.add(item);
     }
-
     double X(ScriptAnalyser struct){
         return struct.getX() * typeInfo.get(struct.getName()).gridWidth + typeInfo.get(struct.getName()).offsetX;
     }
@@ -94,9 +142,12 @@ public class ImageMap extends Pane{
             @Override
             public void run() {
                 getChildren().clear();
-                imageList.sort((o1, o2) -> (int)(o1.getY() - o2.getY()));
+                imageList.sort((o1, o2) -> (int)(((ImageView)o1).getY() - ((ImageView)o2).getY()));
+                textList.sort((o1, o2) -> (int)(((Text)o1).getY() - ((Text)o2).getY()));
+                imageList.addAll(textList);
                 getChildren().setAll(imageList);
                 imageList.clear();
+                textList.clear();
             }
         });
     }

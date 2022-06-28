@@ -106,6 +106,8 @@ public class ActiveModel {
                 letter_to_server.put(word, new ArrayList<>());
 
             letter_to_server.get(word).add(coordinate);
+            letter_to_server.put("TEXT_" + modelName, new ArrayList<>());
+            letter_to_server.get("TEXT_" + modelName).add(coordinate);
 
             return RUN;
         }
