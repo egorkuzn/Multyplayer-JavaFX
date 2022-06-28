@@ -1,5 +1,7 @@
 package com.game.multy_player_javafx.mvc.controller;
 
+import com.game.multy_player_javafx.mvc.model.passive.area.Area;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,11 +14,13 @@ public class Actor {
     HashSet<Task> Actions = new HashSet<>();
     Boolean sex;
     String name = "";
+    Area area;
     int number;
 
-    Actor(String name, Boolean sex){
+    Actor(String name, Boolean sex, Area area){
         this.name = name;
         this.sex = sex;
+        this.area = area;
 
         if(!hashHolder.containsKey(name + sex))
             hashHolder.put(name + sex, hashHolder.size());
@@ -43,5 +47,9 @@ public class Actor {
 
     public boolean getSex(){
         return sex;
+    }
+
+    public Area getArea(){
+        return area;
     }
 }

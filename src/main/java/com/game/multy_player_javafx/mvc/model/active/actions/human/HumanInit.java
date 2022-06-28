@@ -2,9 +2,10 @@ package com.game.multy_player_javafx.mvc.model.active.actions.human;
 
 import com.game.multy_player_javafx.mvc.model.active.ActiveStatus;
 import com.game.multy_player_javafx.mvc.model.active.actions.Action;
-import com.game.multy_player_javafx.mvc.model.active.actions.human.move.AreaFrames;
-import com.game.multy_player_javafx.mvc.model.passive.PassiveStatus;
-import com.game.multy_player_javafx.mvc.model.passive.Point;
+import com.game.multy_player_javafx.mvc.model.passive.area.Area;
+import com.game.multy_player_javafx.mvc.model.passive.area.AreaFrames;
+import com.game.multy_player_javafx.mvc.model.passive.items.PassiveStatus;
+import com.game.multy_player_javafx.mvc.model.passive.area.Point;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,21 +15,19 @@ public class HumanInit implements Action {
     Logger log = Logger.getLogger("");
 
     @Override
-    public boolean make(String name, Point coordinate, ActiveStatus[] status, HashMap<Point, PassiveStatus> passive_models, HashMap<String, ArrayList<Point>> letter_to_server, String placeName) {
-        log.info("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-
-        AreaFrames.getRandomInArea(placeName, coordinate);
-        return false;
+    public boolean make(String name, Point coordinate, ActiveStatus[] status, HashMap<Point, PassiveStatus> passive_models, HashMap<String, ArrayList<Point>> letter_to_server, Area place) {
+        AreaFrames.getRandomInArea(place, coordinate);
+        return true;
     }
 
     @Override
     public String getViewParam() {
-        return "_init:";
+        return "_init:0";
     }
 
     @Override
     public Action clone() {
-        return null;
+        return new HumanInit();
     }
 
     @Override

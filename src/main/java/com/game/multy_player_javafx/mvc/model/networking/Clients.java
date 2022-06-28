@@ -1,11 +1,9 @@
 package com.game.multy_player_javafx.mvc.model.networking;
 
-import com.game.multy_player_javafx.mvc.model.passive.Point;
+import com.game.multy_player_javafx.mvc.model.passive.area.Point;
 
 import java.io.*;
 import java.net.*;
-import java.nio.ByteBuffer;
-import java.nio.channels.DatagramChannel;
 import java.util.*;
 import java.util.logging.Logger;
 

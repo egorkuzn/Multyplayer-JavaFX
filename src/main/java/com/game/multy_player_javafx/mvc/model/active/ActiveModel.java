@@ -2,9 +2,10 @@ package com.game.multy_player_javafx.mvc.model.active;
 
 import com.game.multy_player_javafx.mvc.controller.Actor;
 import com.game.multy_player_javafx.mvc.controller.Task;
-import com.game.multy_player_javafx.mvc.model.passive.PassiveStatus;
+import com.game.multy_player_javafx.mvc.model.passive.area.Area;
+import com.game.multy_player_javafx.mvc.model.passive.items.PassiveStatus;
 import com.game.multy_player_javafx.mvc.model.active.actions.Action;
-import com.game.multy_player_javafx.mvc.model.passive.Point;
+import com.game.multy_player_javafx.mvc.model.passive.area.Point;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +13,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
-import java.util.Random;
 import java.util.logging.Logger;
 
 public class ActiveModel {
@@ -23,12 +23,14 @@ public class ActiveModel {
     //Пример: сейчас CAR, а до этого ты кем был? Собака? Девушка? Парень?
     private ActiveStatus[] status = new ActiveStatus[2];
     private Action action;
+    private Area modelArea;
     private Point coordinate = new Point();
     private HashMap<Point, PassiveStatus> passive_models;
     private HashMap<String, ArrayList<Point>> letter_to_server;
 
     public ActiveModel(Actor actor){
         modelName = actor.getName();
+        modelArea = actor.getArea();
         setDefaultStatus(actor.getSex());
     }
 
@@ -98,7 +100,7 @@ public class ActiveModel {
     public boolean refresh(HashMap<String, ArrayList<Point>> letter_to_server){
         if(action != null) {
             log.info("Refreshed");
-            boolean RUN = action.make(modelName, coordinate, status, passive_models, letter_to_server, "street");
+            boolean RUN = action.make(modelName, coordinate, status, passive_models, letter_to_server, modelArea);
 
             String word = status[0].name() + action.getViewParam();
 

@@ -1,8 +1,9 @@
 package com.game.multy_player_javafx.mvc.model.active.actions;
 
 import com.game.multy_player_javafx.mvc.model.active.ActiveStatus;
-import com.game.multy_player_javafx.mvc.model.passive.PassiveStatus;
-import com.game.multy_player_javafx.mvc.model.passive.Point;
+import com.game.multy_player_javafx.mvc.model.passive.area.Area;
+import com.game.multy_player_javafx.mvc.model.passive.items.PassiveStatus;
+import com.game.multy_player_javafx.mvc.model.passive.area.Point;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +14,7 @@ public interface Action {
                  ActiveStatus[] status,
                  HashMap<Point, PassiveStatus> passive_models,
                  HashMap<String, ArrayList<Point>> letter_to_server,
-                 String placeName);
+                 Area place);
 
     String getViewParam();
 

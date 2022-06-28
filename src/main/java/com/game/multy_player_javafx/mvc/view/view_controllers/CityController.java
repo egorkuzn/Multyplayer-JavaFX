@@ -3,12 +3,17 @@ package com.game.multy_player_javafx.mvc.view.view_controllers;
 import com.game.multy_player_javafx.mvc.view.JavaFxApplication;
 import com.game.multy_player_javafx.mvc.view.network_controllers.ClientController;
 import com.game.multy_player_javafx.mvc.view.scene_items.Sprites;
+import com.game.multy_player_javafx.mvc.view.system.LocalDisplay;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,12 +28,14 @@ public class CityController {
     JavaFxToolkit javaFxToolkit = new JavaFxToolkit();
     Sprites sprites;
     @FXML
-    BorderPane surface = new BorderPane();
-    @FXML
-    ImageView image = new ImageView();
+    Pane surface = new Pane();
+    ImageView image;
     @FXML
     void initialize(){
         getKeyMap();
+
+        image = setImage();
+        surface.getChildren().add(image);
 
         image.setOnMouseEntered(mouseEvent -> {
             if (notFirstTime)
@@ -43,6 +50,22 @@ public class CityController {
                 notFirstTime = true;
             }
         });
+    }
+
+    ImageView setImage(){
+        image = new ImageView(new Image(Location.STREET.path()));
+
+        System.out.println(LocalDisplay.width());
+        System.out.println(LocalDisplay.height());
+        System.out.flush();
+
+        Location.STREET.setBiasX((LocalDisplay.width() - Location.STREET.width()) / 2);
+        Location.STREET.setBiasY((LocalDisplay.height() - Location.STREET.height())/ 2);
+
+        image.setX(Location.STREET.getBiasX());
+        image.setY(Location.STREET.getBiasY());
+
+        return image;
     }
 
     void getKeyMap(){

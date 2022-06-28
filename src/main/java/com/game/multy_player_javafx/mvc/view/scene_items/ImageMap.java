@@ -1,26 +1,21 @@
 package com.game.multy_player_javafx.mvc.view.scene_items;
 
-import com.game.multy_player_javafx.mvc.model.passive.Point;
+import com.game.multy_player_javafx.mvc.model.passive.area.Point;
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
-import javafx.scene.effect.Effect;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextBoundsType;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 
 public class ImageMap extends Pane{
     public ImageMap(){
@@ -74,18 +69,11 @@ public class ImageMap extends Pane{
         }
     }
 
-    int sysBiasOfX(){
-        return (displayWidth() - MyImages.STREET.Width()) / 2;
-    }
-
-    int sysBiasOfY(){
-        return (displayHeight() - MyImages.STREET.Height()) / 2;
-    }
-
     public void add(String metadata, Point coordinate){
         ScriptAnalyser struct = new ScriptAnalyser(metadata);
 
-        coordinate = Point(coordinate.X + sysBiasOfX(), coordinate.Y + sysBiasOfY());
+        coordinate = new Point(coordinate.X + struct.getLocation().getBiasX(),
+                                coordinate.Y + struct.getLocation().getBiasY());
 
         switch (struct.getName()) {
             case "TEXT" -> textAdder(struct, coordinate);

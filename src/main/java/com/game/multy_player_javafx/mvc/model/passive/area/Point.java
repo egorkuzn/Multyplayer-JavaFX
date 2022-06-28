@@ -1,4 +1,4 @@
-package com.game.multy_player_javafx.mvc.model.passive;
+package com.game.multy_player_javafx.mvc.model.passive.area;
 
 import com.game.multy_player_javafx.mvc.model.active.actions.human.move.Direction;
 
@@ -8,10 +8,7 @@ public class Point implements Serializable{
     public int X = 0;
     public int Y = 0;
 
-    public Point(){
-        X = 800;
-        Y = 900;
-    }
+    public Point(){}
     public Point(double X, double Y){
         this.X = (int) X;
         this.Y = (int) Y;

@@ -5,8 +5,8 @@ import com.game.multy_player_javafx.mvc.controller.ServerController;
 import com.game.multy_player_javafx.mvc.controller.ToDo;
 import com.game.multy_player_javafx.mvc.model.active.ActiveModel;
 import com.game.multy_player_javafx.mvc.model.networking.Clients;
-import com.game.multy_player_javafx.mvc.model.passive.PassiveStatus;
-import com.game.multy_player_javafx.mvc.model.passive.Point;
+import com.game.multy_player_javafx.mvc.model.passive.items.PassiveStatus;
+import com.game.multy_player_javafx.mvc.model.passive.area.Point;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,8 +14,8 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-public class City {
-    Logger log = Logger.getLogger(City.class.getName());
+public class Model {
+    Logger log = Logger.getLogger(Model.class.getName());
     Boolean RUN;
     final Point spaceSize;
     HashMap<Actor, ActiveModel> models = new HashMap<>();
@@ -25,7 +25,7 @@ public class City {
     ServerController controller;
     Clients clients;
 
-    public City(ServerController controller){
+    public Model(ServerController controller){
         this.controller = controller;
         RUN = controller.RUN;
         spaceSize = controller.initSizeLimit();

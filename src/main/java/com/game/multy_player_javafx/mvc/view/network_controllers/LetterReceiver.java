@@ -1,12 +1,10 @@
 package com.game.multy_player_javafx.mvc.view.network_controllers;
 
 import com.game.multy_player_javafx.mvc.model.networking.Letter;
-import com.game.multy_player_javafx.mvc.model.passive.Point;
+import com.game.multy_player_javafx.mvc.model.passive.area.Point;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.HashMap;

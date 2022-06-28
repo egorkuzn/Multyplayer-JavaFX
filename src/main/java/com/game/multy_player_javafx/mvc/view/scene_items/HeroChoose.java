@@ -1,6 +1,8 @@
 package com.game.multy_player_javafx.mvc.view.scene_items;
 
 import com.game.multy_player_javafx.mvc.view.network_controllers.ClientController;
+import com.game.multy_player_javafx.mvc.view.system.LocalDisplay;
+import com.game.multy_player_javafx.mvc.view.view_controllers.Location;
 import javafx.animation.Animation;
 import javafx.animation.FillTransition;
 import javafx.geometry.Pos;
@@ -16,9 +18,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class HeroChoose implements Runnable{
     ImageMap imageMap;
-    //for 1960 * 1080 display
-    public static final int width = 1960;
-    public static final int height = 1080;
     AtomicBoolean chooseMade = new AtomicBoolean(false);
 
     String inputName = "Valentine";
@@ -34,19 +33,13 @@ public class HeroChoose implements Runnable{
 
 
         he.setOnMouseClicked(mouseEvent -> {
-            String sex = "BOY";
-            ClientController.sendCommandToServer("THREAD_" + inputName + " " + sex);
-            ClientController.sendCommandToServer("INIT");
-            chooseMade.set(true);
+            sendReaction("BOY");
         });
 
-        she.setTranslateX((int)(width / 2));
+        she.setTranslateX((int)(LocalDisplay.width() / 2));
 
         she.setOnMouseClicked(mouseEvent -> {
-            String sex = "GIRL";
-            ClientController.sendCommandToServer("THREAD_" + inputName + " " + sex);
-            ClientController.sendCommandToServer("INIT");
-            chooseMade.set(true);
+            sendReaction("GIRL");
         });
 
         imageMap.getChildren().setAll(he, she);
@@ -55,13 +48,23 @@ public class HeroChoose implements Runnable{
             imageMap.getChildren().clear();
         });
     }
+
+    void sendReaction(String sex){
+        ClientController.sendCommandToServer(stringFormOfReaction(inputName, sex));
+        ClientController.sendCommandToServer("INIT");
+        chooseMade.set(true);
+    }
+
+    String stringFormOfReaction(String inputName, String sex){
+        return "THREAD_" + inputName + " " + sex + " " + "STREET";
+    }
+
     private class MenuItem extends StackPane {
         public  MenuItem(String path){
-            ImageView bg = new ImageView(new Image(path, (int)(width / 2), height, false, true));
-            bg.setViewport(new Rectangle2D(0, 0, (int)(width / 2), height));
+            ImageView bg = new ImageView(new Image(path, (int)(LocalDisplay.width() / 2), LocalDisplay.height(), false, true));
+            bg.setViewport(new Rectangle2D(0, 0, (int)(LocalDisplay.width() / 2), LocalDisplay.height()));
 
-
-            Rectangle ft = new Rectangle((int)(width / 2), height, Color.BLACK);
+            Rectangle ft = new Rectangle((int)(LocalDisplay.width() / 2), LocalDisplay.height(), Color.BLACK);
             ft.setOpacity(0.7);
             setAlignment(Pos.CENTER_LEFT);
             getChildren().addAll(bg, ft);

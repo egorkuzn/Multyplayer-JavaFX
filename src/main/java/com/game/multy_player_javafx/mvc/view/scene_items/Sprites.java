@@ -1,12 +1,10 @@
 package com.game.multy_player_javafx.mvc.view.scene_items;
 
-import com.game.multy_player_javafx.mvc.model.passive.Point;
-import com.game.multy_player_javafx.mvc.view.JavaFxApplication;
+import com.game.multy_player_javafx.mvc.model.passive.area.Point;
 import com.game.multy_player_javafx.mvc.view.network_controllers.ClientController;
 import com.game.multy_player_javafx.mvc.view.network_controllers.LetterReceiver;
-import com.game.multy_player_javafx.mvc.view.view_controllers.JavaFxToolkit;
 import javafx.application.Platform;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,12 +15,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class Sprites extends Thread {
     LetterReceiver letterReceiver = new LetterReceiver();
     ImageMap imageMap = new ImageMap();
-    BorderPane borderPane;
     AtomicBoolean status = new AtomicBoolean(true);
     HeroChoose choosePanel = new HeroChoose(imageMap);
     NameChoose textLine = new NameChoose(imageMap);
-    public Sprites(BorderPane field){
-        borderPane = field;
+
+    public Sprites(Pane field){
         field.getChildren().add(imageMap);
     }
 

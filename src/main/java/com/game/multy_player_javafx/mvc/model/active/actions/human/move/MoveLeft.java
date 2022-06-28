@@ -2,10 +2,11 @@ package com.game.multy_player_javafx.mvc.model.active.actions.human.move;
 
 
 import com.game.multy_player_javafx.mvc.model.active.ActiveStatus;
-import com.game.multy_player_javafx.mvc.model.active.actions.car.headlights.LightsOff;
-import com.game.multy_player_javafx.mvc.model.passive.PassiveStatus;
+import com.game.multy_player_javafx.mvc.model.passive.area.Area;
+import com.game.multy_player_javafx.mvc.model.passive.area.AreaFrames;
+import com.game.multy_player_javafx.mvc.model.passive.items.PassiveStatus;
 import com.game.multy_player_javafx.mvc.model.active.actions.Action;
-import com.game.multy_player_javafx.mvc.model.passive.Point;
+import com.game.multy_player_javafx.mvc.model.passive.area.Point;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +20,7 @@ public class MoveLeft implements Action {
         first_time = true;
     }
     @Override
-    public boolean make(String name, Point coordinate, ActiveStatus[] status, HashMap<Point, PassiveStatus> passive_models, HashMap<String, ArrayList<Point>> letter_to_server, String placeName) {
+    public boolean make(String name, Point coordinate, ActiveStatus[] status, HashMap<Point, PassiveStatus> passive_models, HashMap<String, ArrayList<Point>> letter_to_server, Area place) {
         if(first_time) {
             energy = status[0].energy;
             first_time = false;
@@ -28,7 +29,7 @@ public class MoveLeft implements Action {
         if(energy > 0) {
             energy--;
 
-            if(AreaFrames.isInArea(placeName, coordinate, status[0].speed, Direction.LEFT))
+            if(AreaFrames.isInArea(place, coordinate, status[0].speed, Direction.LEFT))
                 coordinate.X -= status[0].speed;
         }
 

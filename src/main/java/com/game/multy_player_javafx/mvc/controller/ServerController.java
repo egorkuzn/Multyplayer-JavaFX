@@ -1,14 +1,13 @@
 package com.game.multy_player_javafx.mvc.controller;
 
 import com.game.multy_player_javafx.mvc.exceptions.BadCommand;
-import com.game.multy_player_javafx.mvc.model.passive.Point;
+import com.game.multy_player_javafx.mvc.model.passive.area.Point;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 
 public class ServerController extends Thread{

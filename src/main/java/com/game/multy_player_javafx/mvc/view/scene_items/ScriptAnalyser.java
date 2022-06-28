@@ -1,5 +1,7 @@
 package com.game.multy_player_javafx.mvc.view.scene_items;
 
+import com.game.multy_player_javafx.mvc.view.view_controllers.Location;
+
 public class ScriptAnalyser {
     String script;
     String name;
@@ -39,5 +41,9 @@ public class ScriptAnalyser {
 
     public String getText(){
         return textInfo.toString();
+    }
+
+    public Location getLocation(){
+        return Location.STREET;
     }
 }
