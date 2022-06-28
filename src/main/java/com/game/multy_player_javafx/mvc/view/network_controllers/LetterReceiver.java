@@ -24,8 +24,6 @@ public class LetterReceiver extends Thread{
     @Override
     public void run() {
         try {
-            ObjectInputStream objectInputStream = new ObjectInputStream(ClientController.clientSocket.getInputStream());
-
             while (RUN){
 //                clientSocket = new DatagramSocket(port);
 //                packet = new DatagramPacket(bytes, 1024);
@@ -35,6 +33,7 @@ public class LetterReceiver extends Thread{
 //                Object object = new ObjectInputStream(byteArrayInputStream).readObject();
 //                byteArrayInputStream.close();
 
+                ObjectInputStream objectInputStream = new ObjectInputStream(ClientController.clientSocket.getInputStream());
                 Object object = objectInputStream.readObject();
 
                 if(object != null && object.getClass() == Letter.class) {
