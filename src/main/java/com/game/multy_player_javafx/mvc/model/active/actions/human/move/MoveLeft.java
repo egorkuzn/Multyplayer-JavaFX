@@ -29,7 +29,7 @@ public class MoveLeft implements Action {
         if(energy > 0) {
             energy--;
 
-            if(AreaFrames.isInArea(place, coordinate, status[0].speed, Direction.LEFT))
+            if(AreaFrames.isInArea(place, coordinate, status[0].speed, Direction.LEFT, status[0]))
                 coordinate.X -= status[0].speed;
         }
 

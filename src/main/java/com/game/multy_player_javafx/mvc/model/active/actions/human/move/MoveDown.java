@@ -29,7 +29,7 @@ public class MoveDown implements Action {
         if(energy > 0) {
             energy--;
 
-            if(AreaFrames.isInArea(place, coordinate, status[0].speed / 2, Direction.DOWN))
+            if(AreaFrames.isInArea(place, coordinate, status[0].speed / 2, Direction.DOWN, status[0]))
                 coordinate.Y += status[0].speed / 2;
         }
 

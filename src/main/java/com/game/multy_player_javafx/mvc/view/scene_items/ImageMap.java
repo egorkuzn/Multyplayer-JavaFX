@@ -81,7 +81,7 @@ public class ImageMap extends Pane{
         }
     }
 
-    void textAdder(ScriptAnalyser struct, Point coordinate){
+    synchronized void textAdder(ScriptAnalyser struct, Point coordinate){
         int dy = 80;
         int shadowX = 2;
         int shadowY = 2;
@@ -100,7 +100,7 @@ public class ImageMap extends Pane{
         return text;
     }
 
-    void imageAdder(ScriptAnalyser struct, Point coordinate){
+    synchronized void imageAdder(ScriptAnalyser struct, Point coordinate){
         ImageView item = new ImageView(typeInfo.get(struct.getName()).path);
         item.setViewport(new Rectangle2D(X(struct), Y(struct), width(struct), height(struct)));
         item.setScaleX(3);
