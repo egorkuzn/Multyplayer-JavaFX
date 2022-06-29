@@ -1,6 +1,6 @@
 package com.game.multy_player_javafx.mvc.model.networking;
 
-import com.game.multy_player_javafx.mvc.model.passive.area.Point;
+import com.game.multy_player_javafx.mvc.model.passive.area.geometry.Point;
 
 import java.io.Serializable;
 import java.util.*;

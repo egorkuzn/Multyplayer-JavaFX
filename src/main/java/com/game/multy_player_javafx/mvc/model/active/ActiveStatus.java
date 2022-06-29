@@ -3,7 +3,7 @@ package com.game.multy_player_javafx.mvc.model.active;
 import com.game.multy_player_javafx.mvc.model.active.actions.Action;
 import com.game.multy_player_javafx.mvc.model.passive.area.Area;
 import com.game.multy_player_javafx.mvc.model.passive.area.PlaceInArea;
-import com.game.multy_player_javafx.mvc.model.passive.area.Point;
+import com.game.multy_player_javafx.mvc.model.passive.area.geometry.Point;
 
 import java.util.HashMap;
 
@@ -39,17 +39,7 @@ public enum ActiveStatus {
         switch(this){
             case GIRL -> {return 510;}
             case BOY -> {return 528;}
-            default -> {return 255;}
-        }
-    }
-
-    public int bias(PlaceInArea where) {
-        switch (where){
-            case TOP -> {return height() / 4;}
-            case LEFT -> {return minWidth() / 2;}
-            case RIGHT -> {return minWidth() / 2;}
-            case BOTTOM -> {return height();}
-            default -> {return 0;}
+            default -> {return 510;}
         }
     }
 

@@ -1,6 +1,6 @@
 package com.game.multy_player_javafx.mvc.view.scene_items.sprites_block.managing;
 
-import com.game.multy_player_javafx.mvc.model.passive.area.Point;
+import com.game.multy_player_javafx.mvc.model.passive.area.geometry.Point;
 import com.game.multy_player_javafx.mvc.view.network_controllers.ClientController;
 import com.game.multy_player_javafx.mvc.view.network_controllers.LetterReceiver;
 import com.game.multy_player_javafx.mvc.view.scene_items.start.HeroChoose;
@@ -76,8 +76,6 @@ public class Sprites extends Thread {
 
         while (letterReceiver.itWorks()) {
             if (letterReceiver.newLetter()) {
-                System.out.println("LETTER GOT");
-                System.out.flush();
                 setMap(letterReceiver.getMap());
             }
         }
@@ -92,8 +90,6 @@ public class Sprites extends Thread {
             for (Point coordinate : group.getValue()) {
 
                 imageMap.add(group.getKey(), coordinate);
-                System.out.println(coordinate.X + ";" + coordinate.Y);
-                System.out.flush();
             }
 
         imageMap.setAll();

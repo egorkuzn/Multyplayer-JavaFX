@@ -1,7 +1,7 @@
 package com.game.multy_player_javafx.mvc.controller;
 
 import com.game.multy_player_javafx.mvc.exceptions.BadCommand;
-import com.game.multy_player_javafx.mvc.model.passive.area.Point;
+import com.game.multy_player_javafx.mvc.model.passive.area.geometry.Point;
 
 import java.io.*;
 import java.net.ServerSocket;

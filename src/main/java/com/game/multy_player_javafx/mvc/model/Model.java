@@ -6,7 +6,7 @@ import com.game.multy_player_javafx.mvc.controller.ToDo;
 import com.game.multy_player_javafx.mvc.model.active.ActiveModel;
 import com.game.multy_player_javafx.mvc.model.networking.Clients;
 import com.game.multy_player_javafx.mvc.model.passive.items.PassiveStatus;
-import com.game.multy_player_javafx.mvc.model.passive.area.Point;
+import com.game.multy_player_javafx.mvc.model.passive.area.geometry.Point;
 
 import java.util.ArrayList;
 import java.util.HashMap;

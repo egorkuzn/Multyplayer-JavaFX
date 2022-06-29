@@ -4,10 +4,9 @@ package com.game.multy_player_javafx.mvc.model.active.actions.human.move;
 import com.game.multy_player_javafx.mvc.model.active.ActiveStatus;
 import com.game.multy_player_javafx.mvc.model.passive.area.Area;
 import com.game.multy_player_javafx.mvc.model.passive.area.AreaFrames;
-import com.game.multy_player_javafx.mvc.model.passive.area.PlaceInArea;
 import com.game.multy_player_javafx.mvc.model.passive.items.PassiveStatus;
 import com.game.multy_player_javafx.mvc.model.active.actions.Action;
-import com.game.multy_player_javafx.mvc.model.passive.area.Point;
+import com.game.multy_player_javafx.mvc.model.passive.area.geometry.Point;
 
 import java.util.ArrayList;
 import java.util.HashMap;

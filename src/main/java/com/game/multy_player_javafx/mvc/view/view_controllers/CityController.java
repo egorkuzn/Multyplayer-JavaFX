@@ -46,6 +46,14 @@ public class CityController {
                 notFirstTime = true;
             }
         });
+
+        surface.setOnMouseClicked(mouseEvent -> {
+            final int i1 = (int) (mouseEvent.getX() - Location.STREET.getBiasX()),
+                    i2 = (int) (mouseEvent.getY() - Location.STREET.getBiasY());
+
+            System.out.println( i1 + ";" + i2);
+            System.out.flush();
+        });
     }
 
     ImageView setImage(){

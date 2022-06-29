@@ -1,6 +1,6 @@
 package com.game.multy_player_javafx.mvc.view.scene_items.sprites_block.managing;
 
-import com.game.multy_player_javafx.mvc.model.passive.area.Point;
+import com.game.multy_player_javafx.mvc.model.passive.area.geometry.Point;
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
@@ -14,16 +14,16 @@ import javafx.scene.text.Text;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ImageMap extends Pane{
     public ImageMap(){
         if(typeInfo.isEmpty())
             getTypeInfo();
     }
-    ArrayList<Node> imageList = new ArrayList<>();
-    ArrayList<Node> textList = new ArrayList<>();
+    CopyOnWriteArrayList<Node> imageList = new CopyOnWriteArrayList<>();
+    CopyOnWriteArrayList<Node> textList = new CopyOnWriteArrayList<>();
     static HashMap<String, Type> typeInfo = new HashMap<String, Type>();
     public static HashMap<Environment, String> chooseHeroPath = new HashMap<>();
 
@@ -81,8 +81,8 @@ public class ImageMap extends Pane{
         }
     }
 
-    synchronized void textAdder(ScriptAnalyser struct, Point coordinate){
-        int dy = 80;
+    void textAdder(ScriptAnalyser struct, Point coordinate){
+        int dy = (int) (150 * (coordinate.Y - 150) / struct.getLocation().height());
         int shadowX = 2;
         int shadowY = 2;
 
@@ -100,7 +100,7 @@ public class ImageMap extends Pane{
         return text;
     }
 
-    synchronized void imageAdder(ScriptAnalyser struct, Point coordinate){
+    void imageAdder(ScriptAnalyser struct, Point coordinate){
         ImageView item = new ImageView(typeInfo.get(struct.getName()).path);
         item.setViewport(new Rectangle2D(X(struct), Y(struct), width(struct), height(struct)));
         item.setScaleX(struct.getScaleX(width(struct)));
@@ -130,8 +130,8 @@ public class ImageMap extends Pane{
             @Override
             public void run() {
                 getChildren().clear();
-                imageList.sort((o1, o2) -> (int)(((ImageView)o1).getY() - ((ImageView)o2).getY()));
-                textList.sort((o1, o2) -> (int)(((Text)o1).getY() - ((Text)o2).getY()));
+                imageList.sort((o1, o2) -> (int) (((ImageView) o1).getY() - ((ImageView) o2).getY()));
+                textList.sort((o1, o2) -> (int) (((Text) o1).getY() - ((Text) o2).getY()));
                 imageList.addAll(textList);
                 getChildren().setAll(imageList);
                 imageList.clear();

@@ -1,7 +1,7 @@
 package com.game.multy_player_javafx.mvc.view.network_controllers;
 
 import com.game.multy_player_javafx.mvc.model.networking.Letter;
-import com.game.multy_player_javafx.mvc.model.passive.area.Point;
+import com.game.multy_player_javafx.mvc.model.passive.area.geometry.Point;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -34,11 +34,8 @@ public class LetterReceiver extends Thread{
                 ObjectInputStream objectInputStream = new ObjectInputStream(ClientController.clientSocket.getInputStream());
                 Object object = objectInputStream.readObject();
 
-                if(object != null && object.getClass() == Letter.class) {
+                if(object != null && object.getClass() == Letter.class)
                     letter = (Letter) object;
-                    System.out.println("Caught!!!");
-                    System.out.flush();
-                }
             }
         } catch (IOException e) {
             System.out.println("IO");
