@@ -1,14 +1,14 @@
-package com.game.multy_player_javafx.mvc.view.scene_items.items;
+package com.game.multy_player_javafx.mvc.view.scene_items.sprites_block.items;
 
-public class Girl implements Item{
+public class Car implements Item{
     String info;
-    public Girl(String info) {
+    public Car(String info) {
         this.info = info;
     }
 
     @Override
     public int getX() {
-        return Integer.parseInt(info.substring(info.indexOf(':') + 1)) % 3;
+        return Integer.parseInt(info.substring(info.indexOf(':') + 1));
     }
 
     @Override
@@ -27,5 +27,15 @@ public class Girl implements Item{
             default:
                 return 0;
         }
+    }
+
+    @Override
+    public int getHeight() {
+        return 0;
+    }
+
+    @Override
+    public double getWidth() {
+        return 0;
     }
 }

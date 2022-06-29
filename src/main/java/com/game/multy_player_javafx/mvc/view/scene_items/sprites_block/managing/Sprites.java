@@ -1,8 +1,10 @@
-package com.game.multy_player_javafx.mvc.view.scene_items;
+package com.game.multy_player_javafx.mvc.view.scene_items.sprites_block.managing;
 
 import com.game.multy_player_javafx.mvc.model.passive.area.Point;
 import com.game.multy_player_javafx.mvc.view.network_controllers.ClientController;
 import com.game.multy_player_javafx.mvc.view.network_controllers.LetterReceiver;
+import com.game.multy_player_javafx.mvc.view.scene_items.start.HeroChoose;
+import com.game.multy_player_javafx.mvc.view.scene_items.start.NameChoose;
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 

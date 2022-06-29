@@ -1,4 +1,4 @@
-package com.game.multy_player_javafx.mvc.view.scene_items.items;
+package com.game.multy_player_javafx.mvc.view.scene_items.sprites_block.items;
 
 public class Dog implements Item{
     String info;
@@ -27,5 +27,15 @@ public class Dog implements Item{
             default:
                 return 0;
         }
+    }
+
+    @Override
+    public int getHeight() {
+        return 0;
+    }
+
+    @Override
+    public double getWidth() {
+        return 0;
     }
 }

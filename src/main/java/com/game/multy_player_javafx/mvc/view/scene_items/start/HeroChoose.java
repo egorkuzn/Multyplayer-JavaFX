@@ -1,8 +1,9 @@
-package com.game.multy_player_javafx.mvc.view.scene_items;
+package com.game.multy_player_javafx.mvc.view.scene_items.start;
 
 import com.game.multy_player_javafx.mvc.view.network_controllers.ClientController;
+import com.game.multy_player_javafx.mvc.view.scene_items.sprites_block.managing.Environment;
+import com.game.multy_player_javafx.mvc.view.scene_items.sprites_block.managing.ImageMap;
 import com.game.multy_player_javafx.mvc.view.system.LocalDisplay;
-import com.game.multy_player_javafx.mvc.view.view_controllers.Location;
 import javafx.animation.Animation;
 import javafx.animation.FillTransition;
 import javafx.geometry.Pos;
@@ -22,7 +23,7 @@ public class HeroChoose implements Runnable{
 
     String inputName = "Valentine";
 
-    HeroChoose(ImageMap imageMap){
+    public HeroChoose(ImageMap imageMap){
         this.imageMap = imageMap;
     }
 
@@ -87,7 +88,7 @@ public class HeroChoose implements Runnable{
         }
     }
 
-    boolean getChooseStatus(){
+    public boolean getChooseStatus(){
         return chooseMade.get();
     }
 

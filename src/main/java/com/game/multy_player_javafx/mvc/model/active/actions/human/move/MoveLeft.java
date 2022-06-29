@@ -13,6 +13,9 @@ import java.util.HashMap;
 
 public class MoveLeft implements Action {
     int energy;
+    ActiveStatus activeStatus;
+    Point coordinate;
+    Area place;
     boolean first_time;
 
     public  MoveLeft(){
@@ -33,12 +36,16 @@ public class MoveLeft implements Action {
                 coordinate.X -= status[0].speed;
         }
 
+        activeStatus = status[0];
+        this.coordinate = coordinate;
+        this.place = place;
+
         return true;
     }
 
     @Override
     public String getViewParam() {
-        return "_left:" + (energy + 1);
+        return "_left:" + (energy + 1) + ":" + activeStatus.dynamicHeight(coordinate, place);
     }
 
     @Override

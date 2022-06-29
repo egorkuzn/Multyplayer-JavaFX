@@ -1,6 +1,6 @@
-package com.game.multy_player_javafx.mvc.view.scene_items;
+package com.game.multy_player_javafx.mvc.view.scene_items.sprites_block.managing;
 
-import com.game.multy_player_javafx.mvc.view.scene_items.items.*;
+import com.game.multy_player_javafx.mvc.view.scene_items.sprites_block.items.*;
 
 public enum Environment {
     BOY,
@@ -28,5 +28,13 @@ public enum Environment {
 
     public double getY() {
         return obj.getY();
+    }
+
+    public double getHeight() {
+        return obj.getHeight();
+    }
+
+    public double getWidth() {
+        return obj.getWidth();
     }
 }

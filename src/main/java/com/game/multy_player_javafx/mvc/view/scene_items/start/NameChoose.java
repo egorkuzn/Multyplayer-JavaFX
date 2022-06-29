@@ -1,25 +1,14 @@
-package com.game.multy_player_javafx.mvc.view.scene_items;
+package com.game.multy_player_javafx.mvc.view.scene_items.start;
 
-import impl.org.controlsfx.skin.GridCellSkin;
-import javafx.animation.Animation;
-import javafx.animation.FillTransition;
+import com.game.multy_player_javafx.mvc.view.scene_items.sprites_block.managing.ImageMap;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.util.Duration;
-import org.controlsfx.control.GridView;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -31,7 +20,7 @@ public class NameChoose implements Runnable{
     String inputname;
     AtomicBoolean chooseMade = new AtomicBoolean(false);
 
-    NameChoose(ImageMap imageMap){
+    public NameChoose(ImageMap imageMap){
         this.imageMap = imageMap;
     }
 
@@ -107,7 +96,7 @@ public class NameChoose implements Runnable{
         return inputname;
     }
 
-    boolean getChooseStatus(){
+    public boolean getChooseStatus(){
         return chooseMade.get();
     }
 }

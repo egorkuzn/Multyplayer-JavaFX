@@ -1,4 +1,4 @@
-package com.game.multy_player_javafx.mvc.view.scene_items;
+package com.game.multy_player_javafx.mvc.view.scene_items.sprites_block.managing;
 
 import java.io.*;
 import java.util.HashMap;

@@ -22,13 +22,13 @@ public class AreaFrames {
 
     static boolean street(Point toGo, ActiveStatus status, Direction direction){
 
-        if(toGo.X < status.bias(PlaceInArea.LEFT))
+        if(toGo.X < 0)
             return false;
-        else if(toGo.Y < status.bias(PlaceInArea.TOP))
+        else if(toGo.Y < 350)
             return false;
-        else if(toGo.X + status.bias(PlaceInArea.RIGHT) > Area.STREET.width())
+        else if(toGo.X > Area.STREET.width())
             return false;
-        else if(toGo.Y + status.bias(PlaceInArea.LEFT) > Area.STREET.height())
+        else if(toGo.Y > Area.STREET.height())
             return false;
 
         return true;

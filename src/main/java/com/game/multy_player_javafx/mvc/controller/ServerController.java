@@ -7,6 +7,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
@@ -18,7 +19,7 @@ public class ServerController extends Thread{
         static AtomicInteger countOfClients = new AtomicInteger(0);
         ServerSocket server;
         static LinkedList<Socket> socketsList = new LinkedList<>();
-        static ArrayList<ClientsRunner> serverList = new ArrayList<>();
+        static CopyOnWriteArrayList<ClientsRunner> serverList = new CopyOnWriteArrayList<>();
         static ArrayList<ToDo> deleteList = new ArrayList<>();
         public ArrayList<ToDo> toDoList = new ArrayList<>();
         static ArrayList<Integer> freeClientThread = new ArrayList<>();

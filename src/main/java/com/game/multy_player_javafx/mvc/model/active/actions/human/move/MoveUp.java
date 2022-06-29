@@ -4,6 +4,7 @@ package com.game.multy_player_javafx.mvc.model.active.actions.human.move;
 import com.game.multy_player_javafx.mvc.model.active.ActiveStatus;
 import com.game.multy_player_javafx.mvc.model.passive.area.Area;
 import com.game.multy_player_javafx.mvc.model.passive.area.AreaFrames;
+import com.game.multy_player_javafx.mvc.model.passive.area.PlaceInArea;
 import com.game.multy_player_javafx.mvc.model.passive.items.PassiveStatus;
 import com.game.multy_player_javafx.mvc.model.active.actions.Action;
 import com.game.multy_player_javafx.mvc.model.passive.area.Point;
@@ -13,6 +14,9 @@ import java.util.HashMap;
 
 public class MoveUp implements Action {
     int energy;
+    ActiveStatus activeStatus;
+    Point coordinate;
+    Area place;
     boolean first_time;
 
     public  MoveUp(){
@@ -33,12 +37,16 @@ public class MoveUp implements Action {
                 coordinate.Y -= status[0].speed / 2;
         }
 
+        activeStatus = status[0];
+        this.coordinate = coordinate;
+        this.place = place;
+
         return true;
     }
 
     @Override
     public String getViewParam() {
-        return "_up:" + (energy + 1);
+        return "_up:" + (energy + 1) + ":" + activeStatus.dynamicHeight(coordinate, place);
     }
 
     @Override

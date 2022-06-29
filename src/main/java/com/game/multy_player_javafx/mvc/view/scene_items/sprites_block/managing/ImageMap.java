@@ -1,4 +1,4 @@
-package com.game.multy_player_javafx.mvc.view.scene_items;
+package com.game.multy_player_javafx.mvc.view.scene_items.sprites_block.managing;
 
 import com.game.multy_player_javafx.mvc.model.passive.area.Point;
 import javafx.application.Platform;
@@ -103,8 +103,8 @@ public class ImageMap extends Pane{
     synchronized void imageAdder(ScriptAnalyser struct, Point coordinate){
         ImageView item = new ImageView(typeInfo.get(struct.getName()).path);
         item.setViewport(new Rectangle2D(X(struct), Y(struct), width(struct), height(struct)));
-        item.setScaleX(3);
-        item.setScaleY(3);
+        item.setScaleX(struct.getScaleX(width(struct)));
+        item.setScaleY(struct.getScaleY(height(struct)));
         item.setX(coordinate.X);
         item.setY(coordinate.Y);
 

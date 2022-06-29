@@ -15,6 +15,9 @@ import java.util.logging.Logger;
 public class HumanInit implements Action {
     Logger log = Logger.getLogger("");
     boolean isSet = false;
+    ActiveStatus activeStatus;
+    Point coordinate;
+    Area place;
 
     @Override
     public boolean make(String name, Point coordinate, ActiveStatus[] status, HashMap<Point, PassiveStatus> passive_models, HashMap<String, ArrayList<Point>> letter_to_server, Area place) {
@@ -23,12 +26,16 @@ public class HumanInit implements Action {
             isSet = AreaFrames.isInArea(place, coordinate, 0, Direction.DOWN, status[0]);
         }
 
+        this.coordinate = coordinate;
+        this.place = place;
+        activeStatus = status[0];
+
         return true;
     }
 
     @Override
     public String getViewParam() {
-        return "_init:0";
+        return "_init:0:" + activeStatus.dynamicHeight(coordinate, place);
     }
 
     @Override

@@ -1,12 +1,13 @@
-package com.game.multy_player_javafx.mvc.view.scene_items;
+package com.game.multy_player_javafx.mvc.view.scene_items.sprites_block.managing;
 
 import com.game.multy_player_javafx.mvc.view.view_controllers.Location;
 
 public class ScriptAnalyser {
-    String script;
     String name;
     double x;
     double y;
+    double height;
+    double width;
     StringBuilder textInfo = new StringBuilder();
 
     public ScriptAnalyser(String script){
@@ -16,6 +17,8 @@ public class ScriptAnalyser {
 
         x = elem.getX();
         y = elem.getY();
+        height = elem.getHeight();
+        width = elem.getWidth();
         name = elem.name();
 
         for(int i = 1; i < array.length; i++) {
@@ -33,6 +36,14 @@ public class ScriptAnalyser {
 
     public double getY(){
         return y;
+    }
+
+    public double getScaleX(double imgWidth){
+        return width / imgWidth;
+    }
+
+    public double getScaleY(double imgHeight){
+        return height / imgHeight;
     }
 
     public String getName(){

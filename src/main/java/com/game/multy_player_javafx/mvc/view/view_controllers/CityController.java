@@ -2,17 +2,13 @@ package com.game.multy_player_javafx.mvc.view.view_controllers;
 
 import com.game.multy_player_javafx.mvc.view.JavaFxApplication;
 import com.game.multy_player_javafx.mvc.view.network_controllers.ClientController;
-import com.game.multy_player_javafx.mvc.view.scene_items.Sprites;
+import com.game.multy_player_javafx.mvc.view.scene_items.sprites_block.managing.Sprites;
 import com.game.multy_player_javafx.mvc.view.system.LocalDisplay;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;

@@ -13,9 +13,12 @@ import java.util.HashMap;
 
 public class MoveDown implements Action {
     int energy;
+    ActiveStatus activeStatus;
+    Point coordinate;
+    Area place;
     boolean first_time;
 
-    public  MoveDown(){
+    public MoveDown(){
         energy = 0;
         first_time = true;
     }
@@ -33,12 +36,16 @@ public class MoveDown implements Action {
                 coordinate.Y += status[0].speed / 2;
         }
 
+        activeStatus = status[0];
+        this.coordinate = coordinate;
+        this.place = place;
+
         return true;
     }
 
     @Override
     public String getViewParam() {
-        return "_down:" + (energy + 1);
+        return "_down:" + (energy + 1) + ":" + activeStatus.dynamicHeight(coordinate, place);
     }
 
     @Override
