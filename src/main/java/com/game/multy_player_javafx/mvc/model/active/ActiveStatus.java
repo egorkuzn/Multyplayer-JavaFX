@@ -46,7 +46,7 @@ public enum ActiveStatus {
     public String dynamicHeight(Point coordinate, Area place) {
         switch (place) {
             case STREET -> {
-                double k = (coordinate.Y - 150) / place.height() * 1.3;
+                double k = (coordinate.Y - 300) / place.height();
                 int newHeight = (int) (height() * k);
                 int newWidth = (int) (maxWidth() * k);
 

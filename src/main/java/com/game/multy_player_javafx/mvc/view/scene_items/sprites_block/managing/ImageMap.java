@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -24,7 +25,9 @@ public class ImageMap extends Pane{
     }
     CopyOnWriteArrayList<Node> imageList = new CopyOnWriteArrayList<>();
     CopyOnWriteArrayList<Node> textList = new CopyOnWriteArrayList<>();
-    static HashMap<String, Type> typeInfo = new HashMap<String, Type>();
+    CopyOnWriteArrayList<Node> geometryList = new CopyOnWriteArrayList<>();
+    static HashMap<String, Type> typeInfo = new HashMap<>();
+    Point realCoord;
     public static HashMap<Environment, String> chooseHeroPath = new HashMap<>();
 
     static void getTypeInfo(){
@@ -71,14 +74,28 @@ public class ImageMap extends Pane{
 
     public void add(String metadata, Point coordinate){
         ScriptAnalyser struct = new ScriptAnalyser(metadata);
-
-        coordinate = new Point(coordinate.X + struct.getLocation().getBiasX(),
-                                coordinate.Y + struct.getLocation().getBiasY());
+        Point newPoint = setCoordinateForView(struct, coordinate);
+        this.realCoord = coordinate;
 
         switch (struct.getName()) {
-            case "TEXT" -> textAdder(struct, coordinate);
-            default -> imageAdder(struct, coordinate);
+            case "TEXT" -> textAdder(struct, newPoint);
+            default -> imageAdder(struct, newPoint);
         }
+    }
+
+    Point setCoordinateForView(ScriptAnalyser struct, Point coordinate){
+        Point newPoint = new Point();
+        newPoint.X = (int) (coordinate.X + struct.getLocation().getBiasX());
+        newPoint.Y = (int) (coordinate.Y + struct.getLocation().getBiasY());
+
+        if(!struct.getName().equals("TEXT")) {
+            newPoint.X -= width(struct) / 2;
+            newPoint.Y -= (heightScaled(struct) + height(struct)) / 2;
+        } else {
+            // добавить табличке с именем параметр высоты
+        }
+
+        return newPoint;
     }
 
     void textAdder(ScriptAnalyser struct, Point coordinate){
@@ -108,8 +125,39 @@ public class ImageMap extends Pane{
         item.setX(coordinate.X);
         item.setY(coordinate.Y);
 
+        geometryAdder(struct, coordinate);
+
         imageList.add(item);
     }
+
+    void geometryAdder(ScriptAnalyser struct, Point coordinate){
+        Rectangle rectangle = new Rectangle(width(struct), height(struct));
+        rectangle.setX(coordinate.X);
+        rectangle.setY(coordinate.Y);
+        rectangle.setScaleX(struct.getScaleX(width(struct)));
+        rectangle.setScaleY(struct.getScaleY(height(struct)));
+
+        rectangle.setFill(Color.GREEN);
+        rectangle.setOpacity(0.8);
+        rectangle.setStroke(Color.MAROON);
+        geometryList.add(rectangle);
+
+        rectangle = new Rectangle(2, 2);
+        rectangle.setX(realCoord.X);
+        rectangle.setY(realCoord.Y);
+        rectangle.setStroke(Color.MAROON);
+
+        geometryList.add(rectangle);
+    }
+
+    int widthScaled(ScriptAnalyser struct){
+        return (int) (width(struct) * struct.getScaleX(width(struct)));
+    }
+
+    int heightScaled(ScriptAnalyser struct){
+        return (int) (height(struct) * struct.getScaleY(height(struct)));
+    }
+
     double X(ScriptAnalyser struct){
         return struct.getX() * typeInfo.get(struct.getName()).gridWidth + typeInfo.get(struct.getName()).offsetX;
     }
@@ -125,6 +173,7 @@ public class ImageMap extends Pane{
     double height(ScriptAnalyser struct){
         return typeInfo.get(struct.getName()).height;
     }
+
     public void setAll(){
         Platform.runLater(new Runnable() {
             @Override
@@ -132,10 +181,12 @@ public class ImageMap extends Pane{
                 getChildren().clear();
                 imageList.sort((o1, o2) -> (int) (((ImageView) o1).getY() - ((ImageView) o2).getY()));
                 textList.sort((o1, o2) -> (int) (((Text) o1).getY() - ((Text) o2).getY()));
+                textList.addAll(geometryList);
                 imageList.addAll(textList);
                 getChildren().setAll(imageList);
                 imageList.clear();
                 textList.clear();
+                geometryList.clear();
             }
         });
     }

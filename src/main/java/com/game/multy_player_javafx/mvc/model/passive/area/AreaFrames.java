@@ -29,8 +29,6 @@ public class AreaFrames {
     }
 
     static boolean street(Point toGo, ActiveStatus status, Direction direction){
-        toGo.Y += status.height() / 4;
-
         if(areaPolygonHashMap.containsKey(Area.STREET))
             return areaPolygonHashMap.get(Area.STREET).isInPolygon(toGo);
 
