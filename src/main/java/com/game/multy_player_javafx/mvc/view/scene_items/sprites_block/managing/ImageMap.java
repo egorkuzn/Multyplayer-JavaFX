@@ -181,7 +181,7 @@ public class ImageMap extends Pane{
                 getChildren().clear();
                 imageList.sort((o1, o2) -> (int) (((ImageView) o1).getY() - ((ImageView) o2).getY()));
                 textList.sort((o1, o2) -> (int) (((Text) o1).getY() - ((Text) o2).getY()));
-                textList.addAll(geometryList);
+//                textList.addAll(geometryList);
                 imageList.addAll(textList);
                 getChildren().setAll(imageList);
                 imageList.clear();

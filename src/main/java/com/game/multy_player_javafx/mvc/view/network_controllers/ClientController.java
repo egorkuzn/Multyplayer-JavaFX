@@ -5,7 +5,7 @@ import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ClientController extends Thread{
-    final String path = "tomashorak.ddns.net";
+    final String path = "irental.ddns.net";
     final int port= 9000;
     static BufferedWriter out;
     public static Socket clientSocket;

@@ -1,6 +1,7 @@
 package com.game.multy_player_javafx.mvc.view.scene_items.start;
 
 import com.game.multy_player_javafx.mvc.view.scene_items.sprites_block.managing.ImageMap;
+import com.game.multy_player_javafx.mvc.view.system.LocalDisplay;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -15,8 +16,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class NameChoose implements Runnable{
     //for 1960 * 1080 display
     ImageMap imageMap;
-    public static final int width = 1960;
-    public static final int height = 1080;
+    public static final int width = (int)LocalDisplay.width();
+    public static final int height = (int)LocalDisplay.height();
     String inputname;
     AtomicBoolean chooseMade = new AtomicBoolean(false);
 
