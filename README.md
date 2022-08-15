@@ -4,4 +4,4 @@
 
 | Server part   | View part     |
 | ------------- | ------------- |
-|[![IMAGE ALT TEXT HERE](https://i.ytimg.com/vi/LEfnHhueMvU/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAj9y3mGnbnbqfTKrM81Ppde_sfCA)](https://youtu.be/LEfnHhueMvU)|https://youtu.be/nZwn2aod_IU|
+|{% include youtubePlayer.html id="LEfnHhueMvU" %}|https://youtu.be/nZwn2aod_IU|
